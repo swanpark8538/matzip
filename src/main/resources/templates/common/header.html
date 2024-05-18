@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<!-- 구글 아이콘 -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- jquery -->
+    <script src="/js/jquery-3.7.1.js"></script>
+    <!-- 기본 CSS -->
+    <link rel="stylesheet" href="/css/default.css" /> 
+    
+    <header>
+        <div class="header-wrap">           
+             <a href="/"><img src="/img/맛zip로고.png"></a>          
+
+            <div class="header-middle-box">
+                <div>
+                    <h1>" 무엇을 도와드릴까요? "</h1>
+                </div>                
+                <div class="header-search-box">
+                	<form action="/search/searchStoreInHeader" method="get">
+                		<input type="text" id="search" name="search" class="keyword" placeholder="먹고싶은 음식을 검색해주세요 ">
+                		<button type="submit" id="search-button" onclick="return checkKeyword();">
+	                   		<span class="material-icons" id="search-icon">search</span>                		 
+                		</button>
+                		<input type="hidden" name="reqPage" value="1">
+
+                	</form>
+                </div>
+            </div>
+            <div class="header-right-box">
+            	<th:block th:if="${session.member == null}">
+                <ul>
+                    <li><a href="/board/boardList?reqPage=1">Q&A</a></li>
+                    <li><a href="/member/jo	inFrm">JOIN</a></li>
+                    <li><a href="/member/login">LOGIN</a></li>
+                </ul>
+                </th:block>
+                <th:block th:unless="${session.member == null}">
+                <ul>
+                    <li><a href="/board/boardList?reqPage=1">Q&A</a></li>                    
+                    <li>
+			            <a th:if="${session.member.memberLevel == 1}" href="/member/adminpage">관리자</a>
+			            <a th:if="${session.member.memberLevel == 2}" href="/member/mystorepage">매장관리</a>
+			            <a th:unless="${session.member.memberLevel == 1 or session.member.memberLevel == 2}" href="/member/mypage">INFO</a>
+        			</li>
+                    <li><a href="/member/logout">LOGOUT</a></li>
+                </ul>
+                </th:block>
+                <ul>
+                    <li><button onclick="searchBySubway();">역으로 보기</button></li>
+                    <li><button onclick="viewAllStoreList();">맛집 목록</button></li>
+                </ul>
+
+                <script>
+                    function searchBySubway(){
+                        location.href="/search/searchStoreBySubway";
+                    }
+                    
+                    function main(){
+                    	location.href="/";
+                    }
+                    
+                    function viewAllStoreList(){
+                    	location.href="/search/viewAllStoreList?reqPage=1";
+                    }
+                    
+                    function checkKeyword(){
+                
+                    	const keyword = $(".keyword").val();
+                    	if(keyword==""){
+                    		alert("검색어를 입력하세요.");
+                        	return false;	
+                    	}
+                    }
+                </script>
+            </div>
+        </div>    
+    </header>
+</html>

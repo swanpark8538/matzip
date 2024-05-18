@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공지사항 상세보기</title>
+<style>
+	.comment-info{
+		display: flex;
+	}
+	.btn{
+	    height: 40px;
+	    line-height: 40px;
+	    width: 120px;
+	    text-align: center;
+  	}
+	.btn.bc2,.bc3{
+		float: right;
+	}
+	.noticeView{
+		margin-bottom: 50px;
+	}
+</style>
+<link rel="stylesheet" href="/css/notice.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<div class="page-content">
+		<div class="page-title">공지사항</div>
+		
+		<div class="btn-zone">
+			<a th:href="@{/notice/noticeList?reqPage=1}" class="btn bc1">목록으로</a>
+			<th:block th:if="${session.member != null && session.member.memberLevel == 1}">
+        		<button class="btn bc3" th:onclick="noticeDelete([[${n.noticeNo}]]);">삭제</button>
+				<a th:href="@{/notice/updateFrm(noticeNo=${n.noticeNo})}" class="btn bc2">수정</a>
+			</th:block>
+		</div>
+		
+		<table class="tbl noticeView">
+			<tr>
+				<th style="width:15%;">제목</th>
+				<th colspan="6" id="noticeTitle" th:text="${n.noticeTitle}"></th>
+			</tr>
+			<tr>
+				<th th:text="${n.noticeWriter}"></td>
+				<td style="width:15%;" th:text="${n.regDate}"></td>
+				<th style="width:15%;">첨부파일</th>
+				<td>
+					<th:block th:each="file : ${n.fileList}">
+						<img src="/img/files.png" width="16px">
+						<a th:href="@{/notice/filedown(filename=${file.filename},filepath=${file.filepath})}" th:text="다운로드"></a>
+					</th:block>
+				</td>
+				<th style="width:15%;">조회수</th>
+				<td style="width:10%;" th:text="${n.readCount}"></td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<div class="noticeContent" th:utext="${n.noticeContent}"></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<script>
+		function noticeDelete(noticeNo) {
+			if(confirm("게시글을 삭제하시겠습니까?")) {
+				location.href="/notice/delete?noticeNo="+noticeNo;
+			}
+		}
+	</script>
+	
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

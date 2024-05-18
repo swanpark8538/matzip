@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>사업자 인증 확인</title>
+<script src="/js/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="/css/storeInfo.css">
+<link rel="stylesheet" href="/css/side-menu.css">
+<style>
+
+</style>
+</head>
+<body>
+	<!-- 매장만 들어갈 수 있도록 설정해줘야함-->
+	<th:block th:include="common/header"></th:block>
+	<div class="content">
+		<div class="navigation">
+                <ul>
+                    <li class="list">
+                        <a href="/store/bussinessNumberCheck" class="active">
+                            <span class="material-icons">add_business</span>
+                            <span class="title">매장등록</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="/store/myStore">
+                            <span class="material-icons">storefront</span>
+                            <span class="title">매장 관리</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="/reserve/reserveManage">
+                            <span class="material-icons">calendar_month</span>
+                            <span class="title">예약 관리</span>
+                        </a>
+                    </li>                   
+               </ul>
+        </div>        
+    <!--//사이드메뉴-->
+
+    <div class="s-content">
+    	<!-- 사업자 조회  -->
+        <div id="s-bussniessContent">
+            <h1 class="s-title1">사업자 번호 조회</h1>
+            <div class="s-title2" style="font-family: ns-r">등록할 사업자번호를 입력해주세요</div>
+            <form id="s-bussinessForm" method="get" action="/store/storeEnrollFrm">
+	            <div class="s-inputDiv">
+	            	<input type="hidden" name="memberNo" th:value=${session.member.memberNo}>
+	                <input type="text" name="businessNo" class="s-bussinessNum" maxlength="12" id="s-bussinessNum"
+	                    placeholder="000-00-00000">
+	                <br>
+	                <span id="s-enrollCheckMsg"></span>
+	            </div>
+	            <div>
+	                <input class="s-enrollbutton" id="s-enrollNonbutton" type="submit" value="다음" disabled>
+	            </div>
+            </form>
+        </div>
+     </div>  
+    <script src="/js/side-menu.js"></script> 
+	<script>
+        $(".s-bussinessNum").on("input", function() {
+            $("#s-enrollCheckMsg").text("");
+            $("#s-enrollCheckMsg").css("color", "red");
+            $("#s-enrollNonbutton").prop("disabled", true);
+            $("#s-enrollNonbutton").css("background-color", "#b5b5b5");
+            
+            var input = $(this).val().replace(/\D/g, '').substring(0, 10); // 숫자 이외의 문자는 제거하고 최대 10자로 제한
+            var output = '';
+
+            if (input.length > 3) {
+                output += input.substr(0, 3) + '-';
+                if (input.length > 6) {
+                    output += input.substr(3, 2) + '-';
+                    output += input.substr(5);
+                } else {
+                    output += input.substr(3);
+                }
+            } else {
+                output = input;
+            }
+
+            $(this).val(output);
+
+            if(input.length == 10){
+                var data = {
+                        "b_no": [""+input+""] // 사업자번호 "xxxxxxx" 로 조회 시,
+                }; 
+
+                $.ajax({
+                //인코딩 키 주면 되고 디코딩 키주면 안댐
+                url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=8CPiAUJwtCcph1LZoyv2%2BHHEtTJDVb3oKNNLRju7DE%2BC%2F2E865koh2pLSdKHDbe0EtdzoSOwgmIkd6GBSXK4GQ%3D%3D",  
+                type: "POST",
+                data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+                    dataType: "JSON",
+                    contentType: "application/json",
+                    accept: "application/json",
+                    success: function(result) {
+                    let valid = result.data[0].b_stt_cd;
+            
+                    if (valid=='01'){
+                        $("#s-enrollCheckMsg").text("정상적인 사업자번호입니다.");
+                        $("#s-enrollCheckMsg").css("color", "green");               
+                        $("#s-enrollNonbutton").css("background-color", "#72B37E");               
+                        $("#s-enrollNonbutton").prop('disabled', false);
+                    }else {
+                        $("#s-enrollCheckMsg").text("사업자등록번호 확인 후 다시 입력해주세요.");
+                        $("#s-enrollCheckMsg").css("color", "red");
+                        
+                    }
+                    },
+                    error: function(result) {
+                        console.log(result.responseText); //responseText의 에러메세지 확인
+                    }
+                });
+            }
+
+        });
+    </script>
+	</div>
+    <!--사이드메뉴-->
+  
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

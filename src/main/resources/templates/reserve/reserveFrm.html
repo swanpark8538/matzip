@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/reserve/reserveCssDefault.css">
+  <link rel="stylesheet" href="/css/reserve/reserveFrm.css">
+</head>
+
+<body>
+  <!--헤더-->
+  <th:block th:include="common/header"></th:block>
+  <!--//헤더-->
+
+  <main>
+
+    <div class="main-wrap">
+
+      <!--컨텐츠-->
+      <div class="page-content">
+        <div class="page-title">예약</div>
+
+        <!--컨텐츠wrap-->
+        <div class="content-wrap">
+
+          <!--매장정보-->
+          <article class="article">
+            <div class="article-title storeName" th:text="${store.storeName}"></div>
+            <div class="article-content float">
+              <ul class="opening-hour day">
+                <li>요일</li>
+                <li>일요일</li>
+                <li>월요일</li>
+                <li>화요일</li>
+                <li>수요일</li>
+                <li>목요일</li>
+                <li>금요일</li>
+                <li>토요일</li>
+              </ul>
+              <ul class="opening-hour hour">
+                <li>영업시간</li>
+                <li name="openingHour" th:text="|${store.openingHour} ~ ${store.closingHour}|"></li>
+                <li name="openingHour" th:text="|${store.openingHour} ~ ${store.closingHour}|"></li>
+                <li name="openingHour" th:text="|${store.openingHour} ~ ${store.closingHour}|"></li>
+                <li name="openingHour" th:text="|${store.openingHour} ~ ${store.closingHour}|"></li>
+                <li name="openingHour" th:text="|${store.openingHour} ~ ${store.closingHour}|"></li>
+                <li name="openingHour" th:text="|${store.openingHour} ~ ${store.closingHour}|"></li>
+                <li name="openingHour" th:text="|${store.openingHour} ~ ${store.closingHour}|"></li>
+              </ul>
+            </div>
+            <div class="article-content float">
+              <ul class="opening-hour day">
+                <li>휴게시간</li>
+              </ul>
+              <ul class="opening-hour hour">
+                <li id="breakTime" th:text="|${store.breakStart} ~ ${store.breakEnd}|"></li>
+              </ul>
+            </div>
+          </article>
+          <!--//매장정보-->
+
+          <!--데이트피커-->
+          <article class="article">
+            <div class="article-title">날짜 선택</div>
+            <div class="article-content">
+              <div id="datepicker"></div>
+            </div>
+          </article>
+          <!--//데이트피커-->
+
+          <!--예약정보 입력-->
+          <article class="article reserveFrm">
+            <div class="article-title">세부사항</div>
+            <div class="article-content">
+              <form action="/reserve/reserveInsert" method="post">
+                <input type="hidden" name="storeNo" th:value="${store.storeNo}">
+                <input type="hidden" name="reserveDate" id="reserveDate">
+                <ul>
+
+                  <li class="time-area float">
+                    <input type="hidden" name="reserveTime" id="reserveTime">
+                    <div class="li-title">예약 시각</div>
+                    <div class="li-content">
+                      <!--datepicker에서 날짜 클릭시 button(시각)들을 ajax로 추가-->
+                    </div>
+                  </li>
+
+                  <li class="people-area float">
+                    <input type="hidden" name="reservePeople" id="reservePeople">
+                    <input type="hidden" name="tableNo" id="tableNo">
+                    <div class="li-title">예약 인원</div>
+                    <div class="li-content">
+                      <span class="material-icons" id="people-minus">remove</span>
+                      <span clas="people" id="people">1</span>
+                      <span class="people">명</span>
+                      <span class="material-icons" id="people-plus">add</span>
+                    </div>
+                  </li>
+        
+                  <li class="menu-area float">
+                    <!--보내는 데이터 형태(배열) 예시 : menuNo = [1, 2, 3], servings = [2, 2, 2]-->
+                    <div class="li-title">메뉴(선택)</div>
+                    <div class="li-content">
+                      <select class="menu-list">
+                        <option th:each="menu : ${menus}" th:text="${menu.menuName}" th:value="${menu.menuNo}"></option>
+                      </select>
+                      <span class="material-icons" id="servings-minus">remove</span>
+                      <span class="people" id="servings">1</span>
+                      <span class="people">인분</span>
+                      <span class="material-icons" id="servings-plus">add</span>
+                      <button type="button" class="smallBtn bg-blue" id="menu-order-btn">추가</button>
+                    </div>
+                    <!--이 위치에 jquery로 추가될 태그는
+                      <input type="hidden" name="menuNo" value="?">
+                      <input type="hidden" name="servings" value="?">
+                      여러개도 가능
+                    -->
+                  </li>
+
+                  <!--이 위치에 추가된 메뉴 보여주고, 삭제버튼도 생성-->
+                  <div class="selected-menu">
+                    <!--다음과 같은 형식임(예시)-->
+                    <!--<div>
+                          <span name="shwoMenuName">- 메뉴명 : </span>
+                          <span name="showServings">n인분</span>
+                          <span name="deleteMenuBtn">(x) </span>
+                        </div>-->
+                    <!--<div>
+                          <span name="shwoMenuName">- 메뉴명 : </span>
+                          <span name="showServings">n인분</span>
+                          <span name="deleteMenuBtn">(x) </span>
+                        </div>-->
+                  </div>
+
+                  <li class="request-area float">
+                    <div class="li-title">요청사항</div>
+                    <div class="li-content">
+                      <textarea class="reserveRequest" name="reserveRequest"></textarea>
+                      <span id="requestCount"></span>
+                    </div>
+                  </li>
+
+                  <li>
+                    <button type="submit" class="reserve-btn" id="reserve-btn">예약완료</button>
+                  </li>
+
+                </ul>
+              </form>
+            </div>
+          </article>
+          <!--//예약정보 입력-->
+
+        </div>
+        <!--//컨텐츠wrap-->
+      </div>
+      <!--//컨텐츠-->
+
+    </div>
+
+  </main>
+  
+  <script th:inline="javascript">
+    //reserveFrm.js에 storeNo 넘겨주기 위해 이 스크립트를 만들었음
+    const storeNo = [[${store.storeNo}]];
+  </script>
+  
+  <script src="/js/jquery-ui-1.13.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/js/jquery-ui-1.13.2/jquery-ui.css">
+  <script src="/js/reserveFrm.js"></script>
+
+  <!--ajax-->
+  <script>
+
+  </script>
+  <!--//ajax-->
+  <!--푸터-->
+  <th:block th:include="common/footer"></th:block>
+  <!--//푸터-->
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/reserve/reserveCssDefault.css">
+  <link rel="stylesheet" href="/css/reserve/reserveManage.css">
+</head>
+
+<body>
+  <!--헤더-->
+  <th:block th:include="common/header"></th:block>
+  <!--//헤더-->
+
+  <main>
+
+    <div class="main-wrap">
+
+      <!--사이드메뉴-->
+      <th:block th:include="common/side-menu-store"></th:block>
+      <!--//사이드메뉴-->
+
+      <!--컨텐츠-->
+      <div class="page-content">
+        <!--컨텐츠title-->
+        <div class="page-title">예약 관리</div>
+        <!--//컨텐츠title-->
+
+        <!--컨텐츠wrap-->
+        <div class="content-wrap">
+
+          <!--wrap1-->
+          <div class="content-left-side">
+            <!--데이트피커 article-->
+            <article class="article datepicker">
+              <div class="article-title">날짜 선택</div>
+              <div class="article-content">
+                
+                <div id="datepicker"></div>
+
+                <div class="temp">
+                  <div class="temp-btns">
+                    <button type="button" class="middle-btn bg-green" id="InsertTempBtn">
+                      임시휴무일 지정
+                    </button>
+                    <button type="button" class="middle-btn bg-blue" id="deleteTempBtn">
+                      임시휴무일 해제
+                    </button>
+                  </div>
+                  <div class="temp-explain">
+                    (날짜를 선택하고 위의 버튼을 누르십시오)
+                  </div>
+                </div>
+                <div class="tempClosedDays">
+                  <div class="tempClosedDays-left">임시휴무일 : </div>
+                  <div class="tempClosedDays-right">
+                    <th:block th:each="day : ${tempClosedDays}">
+                      <th:block th:if="${day >= #calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+                        <div th:text="${day}"></div>
+                      </th:block>
+                    </th:block>
+                  </div>
+                </div>
+
+                <input type="hidden" id="reserveDate">
+              </div>
+            </article>
+            <!--//데이트피커 article-->
+          </div>
+          <!--//wrap1-->
+          
+          <!--wrap2-->
+          <div class="content-right-side">
+
+            <!--시각선택 article-->
+            <article class="article timeset">
+              <div class="article-title">시각 선택</div>
+              <div class="article-content"></div>
+              <input type="hidden" id="reserveTime">
+            </article>
+            <!--//시각선택 article-->
+
+            <!--예약내역 article-->
+            <article class="article reserveList">
+              <div class="article-title">예약 내역</div>
+              <div class="article-content">
+
+                <!--예약내역 건들이 위치할 자리-->
+                <!--예시
+                <article class="small-article">
+                  <div class="name">
+                    <div class="small-title">예약자 </div>
+                    <div class="small-content bolder">이충식</div>
+                  </div>
+                  <div class="people">
+                    <div class="small-title">예약인원 </div>
+                    <div class="small-content">2명</div>
+                  </div>
+                  <div class="menu">
+                    <div class="small-title">메뉴 </div>
+                    <div class="small-content">
+                      <div>메뉴1(1인분)</div>
+                      <div>메뉴2(2인분)</div>
+                    </div>
+                  </div>
+                  <div class="request">
+                    <div class="small-title">요청사항 </div>
+                    <div class="small-content">
+                      <div>요오처엉사아하아아아ㅁㄴㅇㄹㅁㄴㅇㄹ아아아아아아앙</div>
+                  </div>
+                  <button type="button" class="middle-btn bg-red" value= reserveNo>예약 취소</button>
+                </article>
+                -->
+                <!--//예약내역 건들이 위치할 자리-->
+
+              </div>
+            </article>
+
+          </div>
+          <!--//wrap2-->
+
+        </article>
+        <!--//컨텐츠wrap-->
+
+      </div>
+      <!--//컨텐츠-->
+
+    </div>
+
+    </div>
+
+  </main>
+
+  <script th:inline="javascript">
+    const storeNo = [[${store.storeNo}]];
+  </script>
+
+  <script src="/js/jquery-ui-1.13.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/js/jquery-ui-1.13.2/jquery-ui.css">
+  <script src="/js/reserveManage.js"></script>
+
+  <!--푸터-->
+  <th:block th:include="common/footer"></th:block>
+  <!--//푸터-->
+</body>
+
+</html>

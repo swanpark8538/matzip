@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+ul{
+  list-style: none;
+}
+
+.main-wrap{
+  display: flex;
+  flex-direction: row;
+  /*align-items: flex-start;*/
+  margin : 0 auto;
+  width: 1200px;
+}
+
+.page-content{
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+.content-wrap{
+  width: 100%; /*=950px*/
+  box-sizing: border-box;
+  display: flex;
+  gap: 15px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.content-left-side{
+  width: 330px;
+  box-sizing: border-box;
+}
+.content-right-side{
+  width: 580px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.timeset, .reserveList{
+  width: 100%;
+}
+
+.article{
+  box-sizing: border-box;
+}
+
+
+.article-cancel{
+  box-shadow: 0 0 0 3px #f04c4c;
+}
+
+
+.article-title{
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #404040;
+}
+
+.article-content{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+
+.temp{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tempClosedDays{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.tempClosedDays-left{
+  width: 100px;
+}
+.tempClosedDays-right{
+  width: 200px;
+}
+
+
+
+
+
+.timeset .article-content{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.smallBtn:hover{
+  background: #007fff;
+  width: 54px;
+}
+
+.smallBtn-active{
+  background: #007fff;
+  width: 54px;
+}
+
+
+.reserve{
+  width: 240px;
+}
+.name, .people, .menu, .request{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.reserveNo{
+  display: none;
+}
+.small-title, .small-content{
+  font-size: 14px;
+}
+.small-title{
+  width: 60px;
+}
+.small-content{
+  width: 180px;
+}
+.bold{
+  font-weight: bolder;
+}
+.cancel-btn{
+  display: block;
+  margin: 0 auto;
+}
+.no-cancel-btn{
+  display: block;
+  margin: 0 auto;
+}
+

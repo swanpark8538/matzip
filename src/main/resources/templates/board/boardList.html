@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시판 목록</title>
+<style>
+	#write-btn{
+		padding: 0.4rem;
+		text-align: center;
+		float: right;
+		width: 200px;
+	}
+	th {
+  		font-weight: 900;
+ 		font-size: 18px;
+  		color: #191919;
+	}
+	.tr-1>* {
+  		font-weight: 600;
+  		font-size: 16px;
+  		color: #191919;
+	}
+	#searchFrm{
+		width: 450px;
+		display: flex;
+		float: left;
+	}
+	#searchFrm>select{
+		width: 95px;
+	}
+	#searchFrm>input{
+		width: 240px;
+	}
+	#searchFrm>button{
+		width: 100px;
+		cursor: pointer;
+		background-color: #707070;
+		color: #fff;
+	}
+	#searchFrm>*{
+		padding: 0.4rem;
+	}
+</style>
+<link rel="stylesheet" href="/css/notice.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<div class="page-content">
+		<div class="page-title">Q&A</div>
+		
+		<form action="/board/search" method="get" id="searchFrm">
+			<th:block th:switch="${type}">
+				<select th:case="writer" name="type" class="input-form">
+					<option value="title">제목</option>
+					<option value="writer" selected>작성자</option>
+					<option value="content">제목+내용</option>
+				</select>
+				<select th:case="content" name="type" class="input-form">
+					<option value="title">제목</option>
+					<option value="writer">작성자</option>
+					<option value="content" selected>제목+내용</option>
+				</select>
+				<select th:case="*" name="type" class="input-form">
+					<option value="title" selected>제목</option>
+					<option value="writer">작성자</option>
+					<option value="content">제목+내용</option>
+				</select>
+			</th:block>
+			<input type="text" class="input-form" name="keyword" th:value="${keyword}" placeholder="내용을 입력해주세요">
+			<input type="hidden" name="reqPage" value="1">
+			<button type="submit" class="btn" onclick="return checkKeyword();">검색</button>
+		</form>
+		
+		<a id="write-btn" th:if="${session.member != null}" class="btn bc1" href="/board/boardWriteFrm">글쓰기</a>
+		
+		<table class="tbl tbl-hover notice-tbl">
+			<tr class="tr-2">
+				<th style="width:10%;">번호</th>
+				<th style="width:35%;">제목</th>
+				<th style="width:25%;">작성자(닉네임)</th>
+				<th style="width:20%;">작성일</th>
+				<th style="width:10%;">조회수</th>
+			</tr>
+			
+			<tr style="background-color: #FAFCF6;" class="tr-1" th:each="board : ${boardList}">
+				 <th:block th:if="${board.boardWriter=='관리자'}">
+                    <td th:text="${board.boardNo}"></td>
+                    <td><a th:href="@{/board/view(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
+                    <td th:text="${board.boardWriter}"></td>
+                    <td th:text="${board.regDate}"></td>
+                    <td th:text="${board.readCount}"></td>
+                </th:block>
+			</tr>
+            <tr class="tr-1" th:each="board : ${boardList}" th:unless="${board.boardWriter == '관리자'}">
+				<td th:text="${board.boardNo}"></td>
+                <td><a th:href="@{/board/view(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
+                <td th:text="${board.boardWriter}"></td>
+                <td th:text="${board.regDate}"></td>
+                <td th:text="${board.readCount}"></td>
+           </tr>
+		</table>
+		
+		<div id="pageNavi" th:utext="${pageNavi}"></div>
+	</div>
+	<script>
+		function checkKeyword() {
+			const keyword = $("[name=keyword]").val();
+			if(keyword == "") {
+				alert("검색어를 입력하세요.");
+				return false;
+			}
+		}
+	</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

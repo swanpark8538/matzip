@@ -1,0 +1,458 @@
+@charset "UTF-8";
+
+a {
+  color: #191919;
+}
+
+/* 공통 디자인 */
+.page-content {
+  width: 1200px;
+  margin: 30px auto;
+  margin-bottom: 10px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+.page-title {
+  font-family: ns-b;
+  padding: 20px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* font 클래스*/
+.f-thin {
+  font-family: ns-thin;
+}
+.f-extrabold {
+  font-family: ns-eb;
+}
+.f-black {
+  font-family: ns-b;
+}
+
+/* 글씨 색 */
+.fc-1 {
+  color:#191919;
+}
+.fc-2 {
+  color: #b3b3b3;
+}
+.fc-3 {
+  color: #72B37E
+}
+
+/* 배경 색*/
+.bg-1 {
+  background-color: #fff;
+}
+.bg-2 {
+  background-color: #b3b3b3;
+}
+
+/* 테이블 디자인 */
+.tbl {
+  width: 100%;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+.tbl th,
+.tbl td {
+  padding: 1rem;
+  text-align: center;
+}
+.tbl .tr-1 {
+  background-color: rgba(255, 255, 255, 1);
+}
+.tbl .tr-1 {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.tbl .td-1 {
+  background-color: rgba(255, 255, 255, 1);
+}
+.tbl.tbl-hover .tr-1:hover {
+  transition-duration: 0.5s;
+  background-color: #E1F0DA;
+}
+
+/* 버튼 디자인 */
+.btn {
+  border: none;
+  display: inline-block;
+  box-sizing: border-box;
+  transition-duration: 0.5s;
+  font-size: 16px;
+  font-family: ns-light;
+}
+
+.bc1 {
+  background-color: #72B37E;
+  color: #fff;
+  border: 2px solid #72B37E;
+}
+.bc1:hover {
+  cursor: pointer;
+}
+.bc2 {
+  background-color: #12c2e9;
+  color: #fff;
+  border: 2px solid #12c2e9;
+}
+.bc2:hover {
+  cursor: pointer;
+}
+.bc3 {
+  background-color: #f64f59;
+  color: #fff;
+  border: 2px solid #f64f59;
+}
+.bc3:hover {
+  cursor: pointer;
+}
+
+.bs1 {
+  padding: 1rem;
+}
+.bs2 {
+  padding: 1.5rem;
+  font-size: 1.1em;
+}
+.bs3 {
+  padding: 2rem;
+  font-size: 1.2em;
+}
+.bs4 {
+  width: 100%;
+  height: 96px;
+  padding: 2rem;
+  font-size: 1.2em;
+}
+
+/* input 디자인 */
+.input-form {
+  width: 100%;
+  display: block;
+  padding: 0.8rem;
+  background-color: #fff;
+  outline: none;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.input-form:focus {
+  box-shadow: 0 0 0 0.1rem #eee;
+}
+
+textarea.input-form {
+  resize: none;
+  min-height: 300px;
+}
+.input-form:read-only:not(select),
+.input-form:disabled {
+  background-color: #f7f7f9;
+}
+
+/* 페이징 디자인 */
+.pagination {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination > li {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  overflow: hidden;
+}
+.pagination.circle-style > li {
+  border-radius: 50%;
+}
+.pagination > li > a.page-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+}
+.pagination > li > a.page-item > span.material-icons {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
+}
+.pagination .page-item.active-page {
+  background-color: #72B37E;
+  color: #fff;
+}
+
+/*게시물 표현*/
+.posting-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.posting-wrap .posting-item {
+  cursor:pointer;
+  box-sizing: border-box;
+  width: calc(100% / 5);
+  padding: 20px;
+}
+.posting-wrap .posting-item .posting-img img {
+  width: 100%;
+  height: 200px;
+}
+.posting-wrap .posting-item .posting-content {
+  width: 80%;
+  margin: 0 auto;
+}
+.posting-wrap .posting-item:hover {
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 댓글 */
+.posting-comment {
+  display: flex;
+  border-top: 2px solid #ccc;
+
+  list-style-type: none;
+}
+.posting-comment > li {
+  box-sizing: border-box;
+}
+.posting-comment > li:first-child {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  border-right: 1px solid #ccc;
+}
+.posting-comment.reply > li:first-child {
+  width: 20%;
+}
+.posting-comment > li:first-child .material-icons {
+  font-size: 80px;
+  color: #ccc;
+}
+.posting-comment.reply > li:first-child .material-icons:first-child {
+  font-size: 40px;
+  color: #ccc;
+}
+.posting-comment.reply > li:last-child {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.posting-comment > li:last-child {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+}
+.posting-comment > li:last-child > p {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.posting-comment > li:last-child > .comment-info > span {
+  padding: 0px 10px;
+}
+.posting-comment > li:last-child > .comment-info > span:not(:last-child) {
+  border-right: 2px solid #fff;
+}
+.posting-comment > li:last-child > .comment-content {
+  padding: 0px 15px;
+}
+.posting-comment > li:last-child > .comment-link {
+  text-align: right;
+}
+.posting-comment > li:last-child > .comment-link > a {
+  margin: 0px 5px;
+}
+.posting-comment > li:last-child > .comment-link > a:hover {
+  text-decoration: underline;
+}
+
+/*모달*/
+.modal-bg {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  display: none;
+  align-items: center;
+  flex-direction: column;
+}
+.modal-wrap {
+  margin-top: 150px;
+  width: 600px;
+  background: #fff;
+  height: auto;
+}
+.modal-wrap div {
+  padding: 1rem;
+}
+.modal-wrap div:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+.modal-wrap .modal-foot {
+  text-align: right;
+}
+.modal-wrap div.modal-head {
+  position: relative;
+}
+.close-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 30px;
+}
+.close-icon:hover {
+  cursor: pointer;
+}
+
+/*detail*/
+.input-wrap{
+	padding : 15px;
+}
+.submit-btn{
+	padding : 15px;
+	margin : 20px 0px;
+}
+.input-wrap>label{
+	display: block;
+	margin-bottom: 10px;
+}
+.id-wrap{
+	display: flex;
+}
+.id-wrap>#memberId{
+	width: 80%;	
+}
+.id-wrap>button{
+	width:20%;
+}
+#signupFrm input{
+	height:50px;
+}
+#idChkBtn{
+	padding:0.8rem;
+	height:50px;
+}
+
+#check-container{
+	text-align: center;
+	padding-top: 50px;
+	width: 250px;
+	margin: 0 auto;
+}
+#check-container .id-wrap{
+	display: flex;
+}
+#check-container .id-wrap>input{
+	width: 70%;
+}
+#check-container .id-wrap>button{
+	width: 30%;
+}
+.btn-box{
+	text-align: center;
+}
+.notice-tbl a:hover{
+	text-decoration: underline;
+}
+.notice-tbl tr{
+	border-bottom : 1px solid #ccc;
+}
+
+.notice-tbl tr>td:nth-child(2){
+	text-align: left;
+}
+.board-tbl a:hover{
+	text-decoration: underline;
+}
+.board-tbl tr{
+	border-bottom : 1px solid #ccc;
+}
+.board-tbl tr>td:nth-child(2){
+	text-align: left;
+}
+#pageNavi{
+	margin: 50px;
+}
+.noticeWrite td, .noticeWrite th,.noticeUpdateFrm td, 
+.noticeUpdateFrm th,.photoWrite td, .photoWrite th,.email-tbl td, .email-tbl th{
+	border : 1px solid #ccc;
+}
+.noticeView th, .noticeView td{
+	border : 1px solid #ccc;
+}
+.noticeView .noticeContent{
+	text-align: left;
+	min-height: 300px;
+}
+.noticeUpdateFrm td{
+	text-align: left;
+}
+.boardWrite td, .boardWrite th,.boardUpdateFrm td, 
+.boardUpdateFrm th,.photoWrite td, .photoWrite th,.email-tbl td, .email-tbl th{
+	border : 1px solid #ccc;
+}
+.boardView th, .boardView td{
+	border : 1px solid #ccc;
+}
+.boardView .boardContent{
+	text-align: left;
+	min-height: 300px;
+}
+.boardUpdateFrm td{
+	text-align: left;
+}
+.file-wrap{
+	display: flex;
+	margin:10px 0px;
+	flex-wrap: wrap;
+}
+.file-wrap .files{
+	display: flex;
+	align-items: center;
+	margin: 0px 10px;
+}
+.delBtn{
+	cursor:pointer;
+	margin-left:5px;
+	font-size:18px;	
+}
+.inputCommentBox{
+	margin: 50px;
+}
+.inputCommentBox>form>ul{
+	list-style-type: none;
+	display: flex;
+}
+.inputCommentBox>form>ul>li:first-child{
+	width: 15%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.inputCommentBox>form>ul>li:first-child>span {
+	font-size: 80px;
+	color:#ccc;	
+}
+.inputCommentBox>form>ul>li:nth-child(2) {
+	width:75%;
+}
+.inputCommentBox>form>ul>li:nth-child(2)>textarea{
+	height:96px;
+	min-height: 96px;
+}
+.inputCommentBox>form>ul>li:last-child{
+	width: 10%;
+}
+.commentBox{
+	margin:50px;
+}
+.inputRecommentBox{
+	margin : 30px 0px;
+	display: none;
+}

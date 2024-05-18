@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시글 상세보기</title>
+<style>
+	.comment-info{
+		display: flex;
+	}
+	.btn{
+    height: 40px;
+    line-height: 40px;
+    width: 120px;
+    text-align: center;
+  }
+	.btn.bc2,.bc3{
+		float: right;
+	}
+	.boardView{
+		margin-bottom: 50px;
+	}
+	.comment-info>span:first-child{
+    font-weight: 600;
+	}
+	.bs4{
+	line-height: 36px;
+	}
+</style>
+<link rel="stylesheet" href="/css/notice.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<div class="page-content">
+		<div class="page-title">Q&A</div>
+		
+		<div class="btn-zone">
+			<a th:href="@{/board/boardList?reqPage=1}" class="btn bc1">목록으로</a>
+			<th:block th:if="${session.member != null && (session.member.memberNickname == b.boardWriter || session.member.memberLevel == 1)}">
+				<button class="btn bc3" th:onclick="boardDelete([[${b.boardNo}]]);">삭제</button>
+				<a th:href="@{/board/updateFrm(boardNo=${b.boardNo})}" class="btn bc2">수정</a>
+			</th:block>
+		</div>
+		
+		<table class="tbl boardView">
+			<tr>
+				<th style="width:15%;">제목</th>
+				<th colspan="6" id="boardTitle" th:text="${b.boardTitle}"></th>
+			</tr>
+			<tr>
+				<th th:text="${b.boardWriter}"></td>
+				<td style="width:15%;" th:text="${b.regDate}"></td>
+				<th style="width:15%;">첨부파일</th>
+				<td>
+					<th:block th:each="file : ${b.fileList}">
+						<img src="/img/files.png" width="16px">
+						<a th:href="@{/board/filedown(filename=${file.filename},filepath=${file.filepath})}" th:text="다운로드"></a>
+					</th:block>
+				</td>
+				<th style="width:15%;">조회수</th>
+				<td style="width:10%;" th:text="${b.readCount}"></td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<div class="boardContent" th:utext="${b.boardContent}"></div>
+				</td>
+			</tr>
+		</table>
+		
+		<!-- 댓글 입력 -->
+		<div class="inputCommentBox" th:if="${session.member != null}">
+			<form action="/board/insertComment" method="post">
+				<ul>
+					<li>
+						<span class="material-icons">account_circle</span>
+					</li>
+					<li>
+						<input type="hidden" name="commentWriter" th:value="${session.member.memberNickname}">
+						<input type="hidden" name="boardRef" th:value="${b.boardNo}">
+						<input type="hidden" name="commentRef" th:value=0>
+						<textarea name="commentContent" class="input-form"></textarea>
+					</li>
+					<li>
+						<button type="submit" class="btn bc1 bs4">등록</button>
+					</li>
+				</ul>
+			</form>
+		</div>
+		<!-- 댓글 출력 -->
+		<div class="commentBox">
+			<th:block th:each="bc : ${commentList}">
+				<ul class="posting-comment">
+					<li>
+					    <th:block th:if="${bc.commentWriter == '관리자'}">
+					        <span class="material-icons">manage_accounts</span>
+					    </th:block>
+					    <th:block th:unless="${bc.commentWriter == '관리자'}">
+					        <span class="material-icons">person</span>
+					    </th:block>
+					</li>
+					<li>
+						<p class="comment-info">
+							<span th:text="${bc.commentWriter}"></span>
+							<span th:text="${bc.commentDate}"></span>
+						</p>
+						<p class="comment-content" th:utext="${bc.commentContent.replace('\n','<br>')}" style="white-space: pre-line;"></p>
+						<textarea name="commentContent" class="input-form" th:text="${bc.commentContent}" style="min-height:90px;display:none"></textarea>
+						<p class="comment-link">
+							<th:block th:if="${session.member != null}">
+								<th:block th:if="${session.member.memberNickname == bc.commentWriter || session.member.memberLevel == 1}">
+									<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${bc.commentNo}]],[[${b.boardNo}]])">수정</a>
+									<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${bc.commentNo}]],[[${b.boardNo}]])">삭제</a>
+								</th:block>
+								<a href="javascript:void(0)" class="recShow">답글달기</a>
+							</th:block>
+						</p>
+					</li>
+				</ul>
+				<!-- 대댓글 출력 bc:위에 출력한 댓글, bcc:대댓글 -->
+				<th:block th:each="bcc : ${reCommentList}">
+					<ul class="posting-comment reply" th:if="${bc.commentNo == bcc.commentRef}">
+						<li>
+							<span class="material-icons">subdirectory_arrow_right</span>
+							<th:block th:if="${bcc.commentWriter == '관리자'}">
+     							<span class="material-icons">manage_accounts</span>
+    						</th:block>
+						    <th:block th:unless="${bcc.commentWriter == '관리자'}">
+						        <span class="material-icons">person</span>
+						    </th:block>
+						</li>
+						<li>
+							<p class="comment-info">
+								<span th:text="${bcc.commentWriter}"></span>
+								<span th:text="${bcc.commentDate}"></span>
+							</p>
+							<p class="comment-content" th:utext="${bcc.commentContent.replace('\n','<br>')}" style="white-space: pre-line;"></p>
+							<textarea name="commentContent" class="input-form" th:text="${bcc.commentContent}" style="min-height:90px;display:none"></textarea>
+							<p class="comment-link">
+								<th:block th:if="${session.member != null}">
+									<th:block th:if="${session.member.memberNickname == bcc.commentWriter || session.member.memberLevel == 1}">
+										<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${bcc.commentNo}]],[[${b.boardNo}]])">수정</a>
+										<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${bcc.commentNo}]],[[${b.boardNo}]])">삭제</a>
+									</th:block>
+								</th:block>
+							</p>
+						</li>
+					</ul>
+				</th:block>
+				<!-- 대댓글 입력 -->
+				<div class="inputCommentBox inputRecommentBox" th:if="${session.member != null}">
+					<form action="/board/insertComment" method="post">
+						<ul>
+							<li>
+								<span class="material-icons">subdirectory_arrow_right</span>
+							</li>
+							<li>
+								<input type="hidden" name="commentWriter" th:value="${session.member.memberNickname}">
+								<input type="hidden" name="boardRef" th:value="${b.boardNo}">
+								<input type="hidden" name="commentRef" th:value="${bc.commentNo}">
+								<textarea name="commentContent" class="input-form"></textarea>
+							</li>
+							<li>
+								<button type="submit" class="btn bc1 bs4">등록</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</th:block>
+		</div>
+	</div>
+	
+	<script>
+	function boardDelete(boardNo) {
+		if(confirm("게시글을 삭제하시겠습니까?")) {
+			location.href="/board/delete?boardNo="+boardNo;
+		}
+	}
+	
+	$(".recShow").on("click",function(){
+		const index = $(".recShow").index(this);
+		$(".inputRecommentBox").eq(index).toggle();
+		if($(this).text() == "답글달기") {
+			$(this).text("취소");
+			$(".inputRecommentBox").eq(index).find("textarea").focus();
+		} else {
+			$(this).text("답글달기");
+		}
+		
+	});
+	
+	function modifyComment(obj,commentNo,boardNo) {
+		$(obj).parent().prev().show();
+		$(obj).parent().prev().prev().hide();
+		$(obj).text("수정완료");
+		$(obj).attr("onclick","modifyComplete(this,"+commentNo+","+boardNo+")");
+		$(obj).next().text("수정취소");
+		$(obj).next().attr("onclick","modifyCancel(this,"+commentNo+","+boardNo+")");
+		$(obj).next().next().hide();
+	}
+	function modifyCancel(obj,commentNo,boardNo) {
+		$(obj).parent().prev().hide();
+		$(obj).parent().prev().prev().show();
+		$(obj).prev().text("수정");
+		$(obj).prev().attr("onclick","modifyComment(this,"+commentNo+","+boardNo+")");
+		$(obj).text("삭제");
+		$(obj).attr("onclick","deleteComment(this,"+commentNo+","+boardNo+")");
+		$(obj).next().show();
+	}
+	
+	function modifyComplete(obj,commentNo,boardNo) {
+		const form = $("<form style='display:none;' action='/board/updateComment' method='post'>");
+		const commentNoInput = $("<input type='text' name='commentNo'>");
+		commentNoInput.val(commentNo);
+		const boardNoInput = $("<input type='text' name='boardRef'>");
+		boardNoInput.val(boardNo);
+		const commentContent = $(obj).parent().prev().clone();
+		form.append(commentNoInput).append(boardNoInput).append(commentContent);
+		$("body").append(form);
+		form.submit();
+	}
+	
+	function deleteComment(obj,commentNo,boardNo) {
+		if(confirm("댓글을 삭제하시겠습니까?")) {
+			location.href="/board/deleteComment?commentNo="+commentNo+"&boardNo="+boardNo;
+		}
+	}
+	</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

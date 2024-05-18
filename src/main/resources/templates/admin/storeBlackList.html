@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>블랙리스트</title>
+<link rel="stylesheet" href="/css/storeInfo.css">
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/notice.css">
+<link rel="stylesheet" href="/css/side-menu.css">
+</head>
+<style>
+.s-storeBlackPlusBtn{
+	color: #fff;
+    font-size: 15px;
+    border-radius: 5px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
+    /* margin-top: 20px; */
+    background-color: #4c4945;
+    font-size: 15px;
+}
+.BlackBtn{
+	/*border-radius: 5px;*/
+	border: none;
+	color: #252323;
+    height: 40px;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+</style>
+<body>
+	<th:block th:include="common/header"></th:block>
+    <div class="content">
+    	
+		<!--사이드메뉴-->
+		<div class="navigation">
+			<ul>
+				<li class="list">
+					<a href="/admin/allMember?reqPage=1">
+						<span class="material-icons">account_circle</span>
+						<span class="title">전체회원조회</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="/admin/allStore?reqPage=1">
+						<span class="material-icons">storefront</span>
+						<span class="title">매장 관리</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="/admin/reportList?reqPage=1">
+						<span class="material-icons">calendar_month</span>
+						<span class="title">신고 관리</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="#" class="active">
+						<span class="material-icons">calendar_month</span>
+						<span class="title">블랙리스트관리</span>
+					</a>
+					<ul>
+						<li class="sub-list">
+							<a href="/admin/storeBlackList?reqPage=1">
+								<span class="title">매장블랙리스트</span>
+							</a>
+						</li>
+						<li class="sub-list">
+							<a href="/admin/memberBlackList?reqPage=1">
+								<span class="title">회원블랙리스트</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<!--//사이드메뉴-->
+
+    	 <div class="sss-content">
+            <a href="/admin/storeBlackList?reqPage=1" class="page-title">매장 블랙리스트</a>
+            <!-- 
+             <a href="#" class="s-storeBlackPlusBtn">추가</a></div>            
+             -->
+            <div>
+            	<form action="/admin/searchBlackStore" method="get" id="searchFrm">
+					<th:block th:switch="${type}">
+						<select th:case="id" name="type" class="input-form">
+							<option value="all" >-</option>
+							<option value="name" >매장명</option>
+							<option value="id" selected>아이디</option>
+						</select>
+						<select th:case="name" name="type" class="input-form">
+							<option value="all" >-</option>
+							<option value="name" selected>매장명</option>
+							<option value="id" >아이디</option>
+						</select>
+						<select th:case="*" name="type" class="input-form">
+							<option value="all"  selected>-</option>
+							<option value="name" >매장명</option>
+							<option value="id">아이디</option>
+						</select>
+					</th:block>
+					<input type="text" name="keyword" class="input-form" th:value="${keyword}">
+					<input type="hidden" name="reqPage" value="1">
+					<button type="submit" class="btn bc1" onclick="return checkKeyword();">검색</button>
+				</form>
+            </div>
+            <table class="tbl tbl-hover" style="width: 800px;font-size: 15px;">
+                <tr class="tr-3">
+                	<th style="width:15%;"><input type="checkbox" name="storeBlackCheckAll"></th>
+                    <th style="width:15%;">매장번호</th>
+                    <th style="width:30%;">매장명</th>
+                    <th style="width:15%;">아이디</th>                    
+                    <th style="width:10%;">등급</th>
+                    <th style="width:15%;">등급변경</th>
+                </tr>
+                <tr th:each="store:${list}" class="tr-1 blackTr">
+                	<td><input type="checkbox" class="chk" name="storeBlackCheck"></td>
+                    <td th:text="${store.storeNo}"></td>
+                    <td><a th:href="@{/admin/storeView(storeNo=${store.storeNo})}" th:text="${store.storeName}"></a></td>
+                    <td th:text="${store.memberId}"></td>
+                    <td th:if="${store.storeLevel}==1">매장</td>
+                    <td th:if="${store.storeLevel}==2">블랙</td>
+                    <td>
+                    	<button class="BlackBtn storeBlackChangeLevel">블랙해제</button>                    
+                    </td>
+                </tr>
+                <tr style="border-bottom: none;">
+                	<th></th>
+                	<th></th>
+                	<th></th>
+                	<th></th>
+                	<th></th>
+					<th colspan="1">
+						<button class="BlackBtn checkedStoreBlackChangeLevel">선택블랙해제</button>
+					</th>
+				</tr>
+            </table>
+            <div id="pageNavi" th:utext="${pageNavi}"></div>
+        </div>
+    </div>
+
+		<script src="/js/side-menu.js"></script>
+
+    <script type="text/javascript">
+	    function checkKeyword(){
+			const keyword = $("[name=keyword]").val();
+			if(keyword==""){	//키워드가 아무값도 없을때
+				alert("검색어를 입력하세요.")
+				return false;
+			}
+		}
+	    $("[name=storeBlackCheckAll]").on("click",function(){
+	        if($(this).is(":checked")){
+	            $("[name=storeBlackCheck]").prop("checked",true);
+	        }
+	        else{
+	            $("[name=storeBlackCheck]").prop("checked", false);
+	        }
+	    });
+	    
+	    $(".storeBlackChangeLevel").on("click",function(){
+			const storeNo = $(this).parent().parent().children().eq(1).text();
+			const self = this;
+			const url = location.href;
+			let uri = url.replace(origin,"");
+			uri = uri.substring(0,uri.lastIndexOf("=")+1);
+			$.ajax({
+				url : "/admin/storeBlackChangeLevel",
+				type : "get",
+				data : {storeNo : storeNo},
+				success : function(result){
+					console.log(result,typeof result);
+					if(result===1){
+						//console.log("성공");
+						$(self).parent().parent().remove();
+						//alert("등급이 변경되었습니다.");	
+					}else{
+						alert("잠시후 다시 시도해주세요.");
+					}
+					const page= $(".active-page").text()-1;      
+		            if(page>0){
+			            if($(".blackTr").length==0){
+			            	location.href=uri+page;
+			            }		            	
+		            }else{
+						location.reload();         	
+		            }
+				},
+				error:function(){
+					console.log("에러");
+				}
+			});
+		});
+		
+		$(".checkedStoreBlackChangeLevel").on("click",function(){
+			const check= $(".chk:checked");		
+			if(check.length==0){
+				alert("선택된 회원이 없습니다.");
+				return;
+			}
+			//체크된 회원 번호를 모두 저장할 배열
+			const no = new Array();
+			
+			//체크된 체크박스 기준으로 회원번호랑,선택한 등급 가져옴
+			check.each(function(index,item){
+				const memberNo = $(item).parent().next().text();
+				no.push(memberNo);
+			});
+			
+			//console.log(no,typeof no);
+			const origin = location.origin;
+			const url = location.href;
+			let uri = url.replace(origin,"");
+			uri = uri.substring(0,uri.lastIndexOf("=")+1);
+			$.ajax({
+		        url: "/admin/blackStoreCheckedChangeLevel",
+		        type: "get",
+		        data: { no : no },
+		        traditional: true,
+		        success: function(result) {
+		        	if(result==1){
+			            //alert("등급 변경이 완료되었습니다.");
+			            check.each(function(index,item){
+			            	$(item).parent().parent().remove();
+						});
+		        	}else{
+		        		alert("등급 변경 실패");
+		        	}
+		        	//수정필요 
+		        	//검색했을때도 생각
+		            const page= $(".active-page").text()-1;      
+		            if(page>0){
+			            if($(".blackTr").length==0){
+			            	location.href=uri+page;
+			            }		            	
+		            }else{
+						location.reload();         	
+		            }
+		        },
+		        error: function(error) {
+		            console.log("에러");
+		        }
+		    });
+		});
+    </script>
+    <th:block th:include="common/footer"></th:block>
+</body>
+</html>

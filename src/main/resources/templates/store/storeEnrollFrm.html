@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>매장 등록</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link rel="stylesheet" href="/css/storeInfo.css">
+<link rel="stylesheet" href="/css/side-menu.css">
+</head>
+<body>
+	<!-- 매장만 들어갈 수 있도록 하기-->
+	<th:block th:include="common/header"></th:block>
+	<div class="content">
+		<div class="navigation">
+                <ul>
+                    <li class="list">
+                        <a href="/store/bussinessNumberCheck" class="active">
+                            <span class="material-icons">add_business</span>
+                            <span class="title">매장등록</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="/store/myStore">
+                            <span class="material-icons">storefront</span>
+                            <span class="title">매장 관리</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="/reserve/reserveManage">
+                            <span class="material-icons">calendar_month</span>
+                            <span class="title">예약 관리</span>
+                        </a>
+                    </li>                   
+               </ul>
+        </div>        
+    	<div class="s-content">
+		<!-- 매장등록 -->
+        <div id="s-enrollStoreContent">
+            <h2 class="s-title2">매장등록</h2>
+            <form action="/store/storeEnroll" id="enrollStoreForm" method="post" enctype="multipart/form-data">
+                <div class="s-smallexplain">
+                    <sup>* </sup> 표시된 곳은 필수입력 항목입니다.
+                </div>
+                <div class="s-title3">• 매장정보</div>
+                <div class="s-enrolldiv">
+                    <div class="s-input-wrap">
+                        <label for="businessNo">사업자번호</label>
+                         <input type="hidden" name="memberNo" th:value=${session.member.memberNo}>                        
+                        <input type="text" name="businessNo" id="businessNo" class="s-input-form" th:value=${businessNo} readonly>
+                    </div>
+                    <div class="s-input-wrap">
+                        <label for="store_sns">증빙서류 첨부<sup class="s-requiredMsg">* </sup></label>
+                        <input type="file" name="edvienceUpFile" multiple required>
+                    </div>
+                    <div class="s-input-wrap">
+                        <label for="storeNo">매장명<sup class="s-requiredMsg">* </sup></label>
+                        <input type="text" name="storeName" id="storeName" class="s-input-form" required>
+                    </div>
+                    <div class="s-input-wrap">
+                        <label for="foodType" id="s-selectLable">음식타입<sup class="s-requiredMsg">* </sup></label>
+                        <select name="foodType" required>
+                            <option value="">--</option>
+                            <option value="한식">한식</option>
+                            <option value="중식">중식</option>
+                            <option value="일식">일식</option>
+                            <option value="양식">양식</option>
+                            <option value="치킨">치킨</option>
+                            <option value="햄버거">햄버거</option>
+                            <option value="피자">피자</option>
+                            <option value="디저트">디저트</option>
+                        </select>
+                    </div>
+                    <div class="s-input-wrap">
+                        <label for="subwayName" id="s-selectLable">주변역<sup class="s-requiredMsg">* </sup></label>
+                        <select required name="subwayName">
+                            <!-- subway 목록 출력 -->
+                            <option value="">--</option>
+                            <option value="1" th:each="subway : ${subway}" th:value="${subway.subwayName}"
+                                th:text="${subway.subwayName}"></option>
+                        </select>
+                    </div>
+                    <div class="s-input-wrap">
+                        <label for="storeAddr">주소<sup class="s-requiredMsg">* </sup></label>
+                        <input type="text" name="storeAddr" id="storeAddr" class="s-input-form" onclick="searchAddr();"
+                            required placeholder="주소찾기">
+                        <input type="text" name="storeAddr1" id="storeAddr1" class="s-input-form"
+                            placeholder="상세주소를 입력하세요(예:동, 층, 호)">
+                    </div>
+                    <div class="s-input-wrap">
+                        <label for="storePhone">연락처<sup class="s-requiredMsg">* </sup></label>
+                        <input type="text" name="storePhone" id="storePhone" class="s-input-form" maxlength="13"
+                            required>
+                    </div>
+                    <div class="s-input-wrap">
+                        <label id="s-selectLable" for="">영업시간<sup class="s-requiredMsg">* </sup></label>
+                        <select name="openingHour" required>
+                            <option value="">--</option>
+                            <option value="00:00">00:00</option>
+                            <option value="00:30">00:30</option>
+                            <option value="01:00">01:00</option>
+                            <option value="01:30">01:30</option>
+                            <option value="02:00">02:00</option>
+                            <option value="02:30">02:30</option>
+                            <option value="03:00">03:00</option>
+                            <option value="03:30">03:30</option>
+                            <option value="04:00">04:00</option>
+                            <option value="04:30">04:30</option>
+                            <option value="05:00">05:00</option>
+                            <option value="05:30">05:30</option>
+                            <option value="06:00">06:00</option>
+                            <option value="06:30">06:30</option>
+                            <option value="07:00">07:00</option>
+                            <option value="07:30">07:30</option>
+                            <option value="08:00">08:00</option>
+                            <option value="08:30">08:30</option>
+                            <option value="09:00">09:00</option>
+                            <option value="09:30">09:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="10:30">10:30</option>
+                            <option value="11:00">11:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="14:00">14:00</option>
+                            <option value="14:30">14:30</option>
+                            <option value="15:00">15:00</option>
+                            <option value="15:30">15:30</option>
+                            <option value="16:00">16:00</option>
+                            <option value="16:30">16:30</option>
+                            <option value="17:00">17:00</option>
+                            <option value="17:30">17:30</option>
+                            <option value="18:00">18:00</option>
+                            <option value="18:30">18:30</option>
+                            <option value="19:00">19:00</option>
+                            <option value="19:30">19:30</option>
+                            <option value="20:00">20:00</option>
+                            <option value="20:30">20:30</option>
+                            <option value="21:00">21:00</option>
+                            <option value="21:30">21:30</option>
+                            <option value="22:00">22:00</option>
+                            <option value="22:30">22:30</option>
+                            <option value="23:00">23:00</option>
+                            <option value="23:30">23:30</option>
+                        </select>
+                        시부터
+                        <select name="closingHour" required>
+                            <option value="">--</option>
+                            <option value="00:30">00:30</option>
+                            <option value="01:00">01:00</option>
+                            <option value="01:30">01:30</option>
+                            <option value="02:00">02:00</option>
+                            <option value="02:30">02:30</option>
+                            <option value="03:00">03:00</option>
+                            <option value="03:30">03:30</option>
+                            <option value="04:00">04:00</option>
+                            <option value="04:30">04:30</option>
+                            <option value="05:00">05:00</option>
+                            <option value="05:30">05:30</option>
+                            <option value="06:00">06:00</option>
+                            <option value="06:30">06:30</option>
+                            <option value="07:00">07:00</option>
+                            <option value="07:30">07:30</option>
+                            <option value="08:00">08:00</option>
+                            <option value="08:30">08:30</option>
+                            <option value="09:00">09:00</option>
+                            <option value="09:30">09:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="10:30">10:30</option>
+                            <option value="11:00">11:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="14:00">14:00</option>
+                            <option value="14:30">14:30</option>
+                            <option value="15:00">15:00</option>
+                            <option value="15:30">15:30</option>
+                            <option value="16:00">16:00</option>
+                            <option value="16:30">16:30</option>
+                            <option value="17:00">17:00</option>
+                            <option value="17:30">17:30</option>
+                            <option value="18:00">18:00</option>
+                            <option value="18:30">18:30</option>
+                            <option value="19:00">19:00</option>
+                            <option value="19:30">19:30</option>
+                            <option value="20:00">20:00</option>
+                            <option value="20:30">20:30</option>
+                            <option value="21:00">21:00</option>
+                            <option value="21:30">21:30</option>
+                            <option value="22:00">22:00</option>
+                            <option value="22:30">22:30</option>
+                            <option value="23:00">23:00</option>
+                            <option value="23:30">23:30</option>
+                            <option value="24:00">24:00</option>
+                        </select>
+                        까지
+                    </div>
+                    <div class="s-input-wrap">	<!-- 둘 중 하나만 선택되는건 안되게 해주기 -->
+                        <label for="" id="s-selectLable">쉬는시간</label>
+                        <select name="breakStart">
+                            <option value="-1">--</option>
+                            <option value="00:00">00:00</option>
+                            <option value="00:30">00:30</option>
+                            <option value="01:00">01:00</option>
+                            <option value="01:30">01:30</option>
+                            <option value="02:00">02:00</option>
+                            <option value="02:30">02:30</option>
+                            <option value="03:00">03:00</option>
+                            <option value="03:30">03:30</option>
+                            <option value="04:00">04:00</option>
+                            <option value="04:30">04:30</option>
+                            <option value="05:00">05:00</option>
+                            <option value="05:30">05:30</option>
+                            <option value="06:00">06:00</option>
+                            <option value="06:30">06:30</option>
+                            <option value="07:00">07:00</option>
+                            <option value="07:30">07:30</option>
+                            <option value="08:00">08:00</option>
+                            <option value="08:30">08:30</option>
+                            <option value="09:00">09:00</option>
+                            <option value="09:30">09:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="10:30">10:30</option>
+                            <option value="11:00">11:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="14:00">14:00</option>
+                            <option value="14:30">14:30</option>
+                            <option value="15:00">15:00</option>
+                            <option value="15:30">15:30</option>
+                            <option value="16:00">16:00</option>
+                            <option value="16:30">16:30</option>
+                            <option value="17:00">17:00</option>
+                            <option value="17:30">17:30</option>
+                            <option value="18:00">18:00</option>
+                            <option value="18:30">18:30</option>
+                            <option value="19:00">19:00</option>
+                            <option value="19:30">19:30</option>
+                            <option value="20:00">20:00</option>
+                            <option value="20:30">20:30</option>
+                            <option value="21:00">21:00</option>
+                            <option value="21:30">21:30</option>
+                            <option value="22:00">22:00</option>
+                            <option value="22:30">22:30</option>
+                            <option value="23:00">23:00</option>
+                            <option value="23:30">23:30</option>
+                        </select>
+                        시부터
+                        <select name="breakEnd">
+                            <option value="-1">--</option>
+                            <option value="00:30">00:30</option>
+                            <option value="01:00">01:00</option>
+                            <option value="01:30">01:30</option>
+                            <option value="02:00">02:00</option>
+                            <option value="02:30">02:30</option>
+                            <option value="03:00">03:00</option>
+                            <option value="03:30">03:30</option>
+                            <option value="04:00">04:00</option>
+                            <option value="04:30">04:30</option>
+                            <option value="05:00">05:00</option>
+                            <option value="05:30">05:30</option>
+                            <option value="06:00">06:00</option>
+                            <option value="06:30">06:30</option>
+                            <option value="07:00">07:00</option>
+                            <option value="07:30">07:30</option>
+                            <option value="08:00">08:00</option>
+                            <option value="08:30">08:30</option>
+                            <option value="09:00">09:00</option>
+                            <option value="09:30">09:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="10:30">10:30</option>
+                            <option value="11:00">11:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="14:00">14:00</option>
+                            <option value="14:30">14:30</option>
+                            <option value="15:00">15:00</option>
+                            <option value="15:30">15:30</option>
+                            <option value="16:00">16:00</option>
+                            <option value="16:30">16:30</option>
+                            <option value="17:00">17:00</option>
+                            <option value="17:30">17:30</option>
+                            <option value="18:00">18:00</option>
+                            <option value="18:30">18:30</option>
+                            <option value="19:00">19:00</option>
+                            <option value="19:30">19:30</option>
+                            <option value="20:00">20:00</option>
+                            <option value="20:30">20:30</option>
+                            <option value="21:00">21:00</option>
+                            <option value="21:30">21:30</option>
+                            <option value="22:00">22:00</option>
+                            <option value="22:30">22:30</option>
+                            <option value="23:00">23:00</option>
+                            <option value="23:30">23:30</option>
+                            <option value="24:00">24:00</option>
+                        </select>
+                        까지<span class="breakCheckMsg" style="color: red; font-size: 15px;font-weight:500;"></span>
+                    </div>
+                    <div class="s-input-wrap">
+                        <label>휴무일</label>
+                        <input type="checkbox" id="monday" name="closedDays" value="월">
+                        <span for="monday">월</span>
+
+                        <input type="checkbox" id="tuesday" name="closedDays" value="화">
+                        <span for="tuesday">화</span>
+
+                        <input type="checkbox" id="wednesday" name="closedDays" value="수">
+                        <span for="wednesday">수</span>
+
+                        <input type="checkbox" id="thursday" name="closedDays" value="목">
+                        <span for="thursday">목</span>
+
+                        <input type="checkbox" id="friday" name="closedDays" value="금">
+                        <span for="friday">금</span>
+
+                        <input type="checkbox" id="saturday" name="closedDays" value="토">
+                        <span for="saturday">토</span>
+
+                        <input type="checkbox" id="sunday" name="closedDays" value="일">
+                        <span for="sunday">일</span>
+                    </div>
+					<div class="s-input-wrap">
+                        <label for="timeToEat" id="s-selectLable">식사가능시간<sup class="s-requiredMsg">* </sup></label>
+                        <select required name="timeToEat">
+                            <option value="">--</option>
+                            <option value="1">30분</option>
+                            <option value="2">1시간</option>
+                            <option value="3">1시간 30분</option>
+                            <option value="4">2시간</option>
+                        </select>
+                    </div>
+                    
+                    <div class="s-input-wrap11">
+                     	<fieldset class="s-field">
+    					<legend>테이블수<span class="s-smallexplain"> [예약받기 위한 입력사항입니다]</span></legend>
+    					<div>
+	                        <label for="tableCapacity1" class="s-label">1인용식탁  </label>
+	                        <input type="number" min="0" name="tableCapacitys" id="tableCapacity1" class="s-table"><span> 개</span>
+	                        <label for="tableCapacity2">2인용식탁  </label>
+	                        <input type="number" min="0" name="tableCapacitys" id="tableCapacity2" class="s-table"><span> 개</span>
+    					</div>
+    					<div>
+	                        <label for="tableCapacity3">3인용식탁  </label>
+	                        <input type="number" min="0" name="tableCapacitys" id="tableCapacity3" class="s-table"><span> 개</span>
+    					 	<label for="tableCapacity4">4인용식탁  </label>
+	                        <input type="number" min="0" name="tableCapacitys" id="tableCapacity4" class="s-table" ><span> 개 </span>
+    					</div>
+    					<div>
+	                        <label for="tableCapacity5">5인용식탁  </label>
+	                        <input type="number" min="0" name="tableCapacitys" id="tableCapacity5" class="s-table" ><span> 개</span>
+	                        <label for="tableCapacity6">6인용식탁  </label>
+	                        <input type="number" min="0" name="tableCapacitys" id="tableCapacity6" class="s-table"><span> 개</span>
+    					</div>
+    					<div>
+	                        <label for="tableCapacity7">7인용식탁  </label>
+	                        <input type="number" min="0" name="tableCapacitys" id="tableCapacity7" class="s-table"><span> 개 </span>
+	                        <label for="tableCapacity8">8인용식탁  </label>
+	                        <input type="number" min="0" name="tableCapacitys" id="tableCapacity8" class="s-table"><span> 개</span>
+    					</div>
+                        </fieldset>
+                    </div>
+                    
+                    
+                    
+                    
+                    <div class="s-input-wrap">
+                        <label for="homePage">홈페이지</label>
+                        <input type="text" name="homePage" id="homepage" class="s-input-form">
+                    </div>
+                    <div class="s-input-wrap">
+                        <label for="store_sns">SNS</label>
+                        <input type="text" name="storeSns" id="storeSns" class="s-input-form">
+                    </div>
+                    <div class="s-input-wrap">
+                        <label for="storeDescription">매장설명</label>
+                        <textarea name="storeDescription" id="storeDescription" class="s-input-form"></textarea>
+                    </div>
+                </div>
+
+                <div class="s-title3">• 매장 사진<sup class="s-requiredMsg">* </sup></div>
+                <div class="s-enrolldiv">
+                    <div class="s-input-wrap s-enrollStoreImgBox">
+                        <img class="s-img-view" width="300px" height="300px">
+                        <input type="file" name="storeImgFile" accept=".jpg,.png,.jpeg" onchange="storeloadImg(this);"
+                            required>
+                    </div>
+                </div>
+                
+					
+                
+                <div class="s-title3">• 메뉴 등록<sup class="s-requiredMsg">* </sup>
+                    <span class="plusMenu">추가</span>
+                    <span class="menuCheckMsg" style="color: red; font-size: 15px;font-weight:500;"></span>
+                </div>
+                <div class="s-enrolldiv">
+                    <div class="s-input-wrap s-input-wrap-menu">
+                        <div class="s-menu-div">
+                            <div class="s-img-viewer">
+                                <img class="s-img-view" width="100px" height="100px">
+                            </div>
+                            <div class="s-img-viewerVal">
+                                <input type="file" name="menuImgFile" accept=".jpg,.png,.jpeg" onchange="menuloadImg(this);" required>
+                                <input type="text" class="s-menu-input" name="name" placeholder="메뉴명" required>
+                                <input type="text" class="s-menu-input" name="price" width="150px" placeholder="가격" required>
+                                <span class="minusMenu"> 삭제</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-enrolldiv">
+                	<input type="submit" value="매장등록" class="s-enrollbutton" style="width: 100%;">   
+                </div>             
+            </form>
+        </div>
+	</div>
+	<script src="/js/side-menu.js"></script> 
+    <script>
+            //주소 길찾기
+            function searchAddr() {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        console.log(data);
+                        $("#storeAddr").val(data.address);
+                        $("#storeAddr1").focus();
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                    }
+                }).open();
+            }
+            
+
+
+            //메뉴 +/-
+                $('.plusMenu').on('click', function () {
+                	$(".menuCheckMsg").text("");
+                    $('.s-input-wrap-menu').append(
+                        '<div class="s-menu-div">' +
+                        '<div class="s-img-viewer">' +
+                        '<img class="s-img-view" width="100px" height="100px">' +
+                        '</div>' +
+                        '<div class="s-img-viewerVal">' +
+                        '<input type="file" name="menuImgFile" accept=".jpg,.png,.jpeg" onchange="menuloadImg(this);" required>' +
+                        '<input type="text" class="s-menu-input" name="name" placeholder="메뉴명" required>' +
+                        '<input type="text" class="s-menu-input" name="price" width="150px" placeholder="가격" required>' +
+                        '<span class="minusMenu"> 삭제</span>' +
+                        '</div>' +
+                        '</div>'
+                    );
+                });
+
+                $(document).on('click', '.minusMenu', function () {
+                    $(this).closest('.s-menu-div').remove();
+                });
+
+                //제출안되는경우
+                $('#enrollStoreForm').on('submit', function(event) {
+                    var menuDivCount = $('.s-menu-div').length;
+                    
+                    const breakStart = $('select[name="breakStart"]').val();
+                    const breakEnd = $('select[name="breakEnd"]').val();
+                    
+                    if (menuDivCount === 0) {
+                    	$(".menuCheckMsg").text("← 메뉴를 1개 이상 등록해주세요.");
+                    	event.preventDefault();
+                	}
+
+                    if ((breakStart !== "-1" && breakEnd !== "-1") || (breakStart === "-1" && breakEnd === "-1")) {
+                        
+                    } else {
+                        
+                        event.preventDefault();
+                        $(".breakCheckMsg").text("← 쉬는시간을 제대로 입력해주세요.");
+                        if (menuDivCount === 0) {
+                        	$(".menuCheckMsg").text("← 메뉴를 1개 이상 등록해주세요.");
+                        	event.preventDefault();
+                    	}
+                    }
+                    
+                	
+            	});
+			
+            //이미지 불러오기
+            function storeloadImg(obj) {
+                console.log(obj.files);
+                if (obj.files.length != 0 && obj.files[0] != 0) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(obj.files[0]);
+                    reader.onload = function (e) {
+                        $(obj).parent().find(".s-img-view").attr("src", e.target.result);
+                    }
+                } else {
+                    $(obj).parent().find(".s-img-view").attr("src", "/img/basic.png");
+                }
+            }
+
+            function menuloadImg(obj) {
+                if (obj.files.length != 0 && obj.files[0] != 0) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(obj.files[0]);
+                    reader.onload = function (e) {
+                        $(obj).parent().parent().find(".s-img-view").attr("src", e.target.result);
+                    }
+                } else {
+                    $(obj).parent().parent().find(".s-img-view").attr("src", "/img/basic.png");
+                }
+            }
+            
+            
+            $("#storePhone").keyup(function(){
+            	$(this).val($(this).val().replace(/[^0-9]/g, ""));
+        		var val = $(this).val().replace(/[^0-9]/g, '');
+        		if(val.length > 3 && val.length < 6){
+        			var tmp = val.substring(0,2)
+        			if(tmp == "02"){
+        				$(this).val(val.substring(0,2) + "-" + val.substring(2));
+        			} else {
+        				$(this).val(val.substring(0,3) + "-" + val.substring(3));
+        			}
+        		}else if (val.length > 6){
+        			var tmp = val.substring(0,2)
+        			var tmp2 = val.substring(0,4)
+        			if(tmp == "02"){
+        				if(val.length == "10"){
+        					$(this).val(val.substring(0,2) + "-" + val.substring(2, 6) + "-" + val.substring(6));
+        				} else {
+        					$(this).val(val.substring(0,2) + "-" + val.substring(2, 5) + "-" + val.substring(5));
+        				}
+        			} else if(tmp2 == "0505"){
+        				if(val.length == "12"){
+        					$(this).val(val.substring(0,4) + "-" + val.substring(4, 8) + "-" + val.substring(8));
+        				} else {
+        					$(this).val(val.substring(0,4) + "-" + val.substring(4, 7) + "-" + val.substring(7));
+        				}
+        			} else {
+        				if(val.length == "11"){
+        					$(this).val(val.substring(0,3) + "-" + val.substring(3, 7) + "-" + val.substring(7));
+        				} else {
+        					$(this).val(val.substring(0,3) + "-" + val.substring(3, 6) + "-" + val.substring(6));
+        				}
+        			}
+        		}
+        	});
+            
+            $(".s-table").on("input", function() {
+                $(this).val($(this).val().replace(/[^0-9]/g, ""));
+            });
+            
+	        $("[name='price']").on("input", function() {
+	            $(this).val($(this).val().replace(/[^0-9]/g, ""));
+	        });
+	        
+	        $(document).on("input", "[name='price']", function() {
+	            $(this).val($(this).val().replace(/[^0-9]/g, ""));
+	        });
+	        
+	        
+	        $("[name='tableCapacitys']").val(0);
+	        $("[name='tableCapacitys']").on("change",function(){
+    			if($(this).val() == ""){
+    				$(this).val("0");
+    			}
+    			if($(this).val() < 0){
+    				$(this).val("0");
+    			}
+    		});
+	        
+        </script>
+    </div>
+    <th:block th:include="common/footer"></th:block>
+</body>
+</html>

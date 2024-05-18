@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공지사항 목록</title>
+<style>
+	#write-btn{
+		padding: 0.4rem;
+		text-align: center;
+		float: right;
+		width: 200px;
+	}
+	th {
+  		font-weight: 900;
+ 		font-size: 18px;
+  		color: #191919;
+	}
+	.tr-1>* {
+  		font-weight: 600;
+  		font-size: 16px;
+  		color: #191919;
+	}
+</style>
+<link rel="stylesheet" href="/css/notice.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<div class="page-content">
+		<div class="page-title">공지사항</div>
+		<a id="write-btn" th:if="${session.member != null && session.member.memberLevel == 1}" class="btn bc1" href="/notice/noticeWriteFrm">글쓰기</a>
+		
+		<table class="tbl tbl-hover notice-tbl">
+			<tr>
+				<th style="width:10%;">번호</th>
+				<th style="width:35%;">제목</th>
+				<th style="width:25%;">작성자</th>
+				<th style="width:20%;">작성일</th>
+				<th style="width:10%;">조회수</th>
+			</tr>
+			<tr class="tr-1" th:each="notice : ${noticeList}">
+				<td th:text="${notice.noticeNo}"></td>
+				<td><a th:href="@{/notice/view(noticeNo=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a></td>
+				<td th:text="${notice.noticeWriter}"></td>
+				<td th:text="${notice.regDate}"></td>
+				<td th:text="${notice.readCount}"></td>
+			</tr>
+		</table>
+		
+		<div id="pageNavi" th:utext="${pageNavi}"></div>
+	</div>
+	
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

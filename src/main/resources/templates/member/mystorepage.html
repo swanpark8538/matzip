@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/css/side-menu.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+		<div class="hg-page-wrap">
+
+            <div class="navigation">
+                <ul>
+                    <li class="list">
+                        <a href="/store/bussinessNumberCheck">
+                            <span class="material-icons">add_business</span>
+                            <span class="title">매장등록</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="/store/myStore">
+                            <span class="material-icons">storefront</span>
+                            <span class="title">매장 관리</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="/reserve/reserveManage">
+                            <span class="material-icons">calendar_month</span>
+                            <span class="title">예약 관리</span>
+                        </a>
+                    </li>                   
+                </ul>
+            </div>        
+	
+	
+		<div class="hg-right">
+	        <div class="info-join-title">사장님 정보</div>
+	        <div class="info-join-wrap-box">            
+	            <form action="/member/storeupdate" method="post">                
+	                <div class="info-join-box">
+	                    <div class="info-join-wrap">
+		                    <div class="info-join-wrap">
+		                        <label for="memberNo"></label>
+		                        <input type="hidden" name="memberNo" id="memberNo" class="input-from"
+		                        	th:value="${session.member.memberNo}">
+		                    </div>
+	                        <label for="memberId">아이디(수정불가)</label>
+	                        <input type="text" name="memberId" id="memberId" class="input-from" 
+	                        	th:value="${session.member.memberId}" disabled>
+	                    </div>
+	                    <div class="info-join-wrap">
+	                        <label for="memberEmail">이메일</label>(주소입력)
+	                        <input type="text" name="memberEmail" class="input-from" 
+	                        	th:value="${session.member.memberEmail + session.member.emailAddress}">
+                        <!-- 
+                        <select name="emailAdress">
+                            <option value="@naver.com">- - - naver.com - - -</option>
+                            <option value="@hanmail.net">- - -hanmail.net- - -</option>
+                        </select>
+                         -->	                        
+	                    </div>
+	                    <div class="info-join-wrap">
+	                        <label for="memberPw">비밀번호</label>
+	                        <input type="password" name="memberPw" id="memberPw" class="input-from"
+	                        	th:value="${session.member.memberPw}">	                 
+	                    </div>
+	                    <div class="info-join-wrap">
+	                        <label for="memberPwRe">비밀번호 확인</label><!-- 비밀번호 일치확인-->
+	                        <input type="password"  id="memberPwRe" class="input-from" required>
+	                    </div>
+	                    <div class="info-join-wrap">
+	                        <label for="memberName">이름</label>
+	                        <input type="text" name="memberName" id="memberName" class="input-from" 
+	                        	th:value="${session.member.memberName}">
+	                    </div>
+	                    <div class="info-join-wrap">
+	                        <label for="memberNickname">닉네임(수정불가)</label>
+	                        <input type="text" name="memberNickname" id="memberNickname" class="input-from"
+	                        	th:value="${session.member.memberNickname}" disabled>
+	                    </div>
+	                    <div class="info-join-wrap">
+	                        <label for="memberPhone">휴대전화번호</label>
+	                        <input type="text" name="memberPhone" id="memberPhone" class="input-from" placeholder="010-0000-0000"
+	                        	th:value="${session.member.memberPhone}">
+	                    </div>        
+	                </div>                    
+	                    <div class="info-joinBtn-box">
+	                        <a href="/member/update"><button type="submit" id="update">수 정</button></a>
+	                        <a href="/member/delete"><button type="button" id="out">탈 퇴</button></a>
+	                    </div>  
+	            	</form>
+	        	</div>              
+	    	</div>
+	    	
+	    </div>	
+	    <th:block th:include="common/footer"></th:block>
+	     <script>       
+        
+		$("#memberPwRe").on("change",function(event){
+    		
+    		const memberPw = $("#memberPw").val();
+    		const memberPwRe = $("#memberPwRe").val();
+    		
+    		if(memberPw == memberPwRe){
+    						
+				$("#memberPw").css("border", "1px solid blue");
+				$("#memberPwRe").css("border", "1px solid blue");            
+    		}else{ 
+				$("#memberPw").css("border", "1px solid red");
+				$("#memberPwRe").css("border", "1px solid red");
+				alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");               
+    		}
+    	});
+		
+		 $("form").submit(function (event) {
+             const memberPw = $("#memberPw").val();
+             const memberPwRe = $("#memberPwRe").val();
+
+             if (memberPw !== memberPwRe) {                   
+                 event.preventDefault();
+                 alert("다시 한번 정보를 확인하시기 바랍니다.");
+             } 
+         });
+		 
+		 $("#memberPhone").keyup(function(){
+	        	$(this).val($(this).val().replace(/[^0-9]/g, ""));
+	    		var val = $(this).val().replace(/[^0-9]/g, '');
+	    		if(val.length > 3 && val.length < 6){
+	    			var tmp = val.substring(0,2)
+	    			if(tmp == "02"){
+	    				$(this).val(val.substring(0,2) + "-" + val.substring(2));
+	    			} else {
+	    				$(this).val(val.substring(0,3) + "-" + val.substring(3));
+	    			}
+	    		}else if (val.length > 6){
+	    			var tmp = val.substring(0,2)
+	    			var tmp2 = val.substring(0,4)
+	    			if(tmp == "02"){
+	    				if(val.length == "10"){
+	    					$(this).val(val.substring(0,2) + "-" + val.substring(2, 6) + "-" + val.substring(6));
+	    				} else {
+	    					$(this).val(val.substring(0,2) + "-" + val.substring(2, 5) + "-" + val.substring(5));
+	    				}
+	    			} else if(tmp2 == "0505"){
+	    				if(val.length == "12"){
+	    					$(this).val(val.substring(0,4) + "-" + val.substring(4, 8) + "-" + val.substring(8));
+	    				} else {
+	    					$(this).val(val.substring(0,4) + "-" + val.substring(4, 7) + "-" + val.substring(7));
+	    				}
+	    			} else {
+	    				if(val.length == "11"){
+	    					$(this).val(val.substring(0,3) + "-" + val.substring(3, 7) + "-" + val.substring(7));
+	    				} else {
+	    					$(this).val(val.substring(0,3) + "-" + val.substring(3, 6) + "-" + val.substring(6));
+	    				}
+	    			}
+	    		}
+	    	});
+    </script>	
+</body>
+</html>

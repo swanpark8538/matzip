@@ -1,0 +1,745 @@
+@charset "UTF-8";
+
+/*사용할 폰트*/
+@font-face {
+    font-family: ns-b;
+    src: url(../font/Noto_Sans_KR/static/NotoSansKR-Black.ttf);
+}
+@font-face {
+    font-family: ns-eb;
+    src: url(../font/Noto_Sans_KR/static/NotoSansKR-ExtraBold.ttf);
+}
+@font-face {
+    font-family: ns-r;
+    src: url(../font/Noto_Sans_KR/static/NotoSansKR-Regular.ttf);
+}
+@font-face {
+    font-family: ns-thin;
+    src: url(../font/Noto_Sans_KR/static/NotoSansKR-Thin.ttf);
+}
+
+
+*:not(font) {
+    margin: 0;
+    padding: 0;
+    font-family: ns-r;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+
+/* Modal */
+.modal-hg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content-hg {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 20%;
+    border-radius: 10px;
+}
+
+.close-hg {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-hg:hover {
+    color: black;
+}
+
+
+
+/* header */
+
+header {
+    border-bottom: 2px solid #ebebeb;
+    background-color: #fafcf6;
+}
+header > .header-wrap{    
+    width: 1200px;    
+    margin: 0 auto; 
+    overflow: hidden; 
+    padding-left: 250px;     
+}
+header > .header-wrap > a >img {
+    height: 150px;
+    width: 150px;
+    float: left;       
+}
+header > .header-wrap > .header-middle-box{
+    width: 650px;    
+    float: left;
+    text-align: center;    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 150px;    
+}
+.header-middle-box> div > h1{
+    font-family: ns-r;
+    color:#707070;
+}
+.header-middle-box>div{
+    width: 100%;      
+}
+.header-search-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 추가1 */
+.header-search-box form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 삭제1 */
+/* header > .header-wrap > .header-middle-box > .header-search-box >input{
+    border-width: 0;
+    outline: none;
+    width: 500px;
+    height: 50px;
+    line-height: 50px;    
+    border-bottom: 2px solid #b3b3b3;
+    text-align: center;
+    font-size: 90%;
+    background-color: #fafcf6; 
+} */
+/* 추가2 */
+header > .header-wrap > .header-middle-box > .header-search-box input{
+    border-width: 0;
+    outline: none;
+    width: 500px;
+    height: 50px;
+    line-height: 50px;    
+    border-bottom: 2px solid #b3b3b3;
+    text-align: center;
+    font-size: 90%;
+    background-color: #fafcf6; 
+}
+#search-icon{
+    font-size: 250%;
+    cursor: pointer;
+}
+/* 추가3 */
+#search-button{
+    border: none;
+    border-color: transparent;
+    background-color: transparent;
+}
+
+header > .header-wrap > .header-right-box{
+    width: 300px;    
+    float: left;        
+}
+.header-right-box>ul{    
+    overflow: hidden;
+    list-style-type: none;
+    float: right;
+    margin : 25px 0;          
+}
+.header-right-box>ul>li>a{
+    text-decoration: none;
+    color: #707070;    
+    margin: 0 20px;    
+}
+.header-right-box > ul:first-child > li > a:hover {
+    font-weight: 900;
+}
+.header-right-box>ul>li{
+    float: left;
+}
+.header-right-box>ul:nth-child(2)>li>button{
+    border: 2px solid #707070;
+    margin: 0 10px;
+    font-size: 100%;
+    border-radius: 2px;
+    box-sizing: border-box;
+    padding: 0 25px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+/* 중간 내용 */
+.mid{    
+    width: 1200px;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+
+/* joinFrm */
+
+.join-title{
+	margin-top : 15px;
+    text-align: center;       
+    font-size: 200%;
+    font-family: ns-b; 
+}
+.join-wrap-box{
+    width: 500px;
+    margin: 0 auto;
+}
+.join-box{
+    background-color: #ffffff;    
+    width: 500px;
+    border: 1px solid #b3b3b3;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.join-box>p{
+    color: #b3b3b3;
+    font-size: 80%;
+    margin-bottom : 15px;    
+}
+.join-box > p> span{
+    color: #ff0000;
+    font-family: ns-eb;
+}
+.join-box > .choiceBtn{
+	
+    margin:0 auto;
+}
+.join-box > .choiceBtn > label{
+    margin: 60px;
+}
+.join-box >.choiceBtn>label>span{
+    padding-right: 20px;
+    font-size: 150%;
+    font-family: ns-r;
+}
+.join-box >.choiceBtn>label>input{
+    width: 30px;
+    height: 20px;
+}
+.join-box >.join-wrap{
+    margin: 30px 0;       
+}
+.join-box> .join-wrap>input{
+    border-width: 0;
+    outline: none;
+    height: 25px;
+    width: 100%;   
+    border-bottom: 2px solid #ebebeb;
+    font-size: 100%;
+    font-family: ns-b;
+}
+.join-wrap>label>sup{
+    color: #ff0000;
+    font-family: ns-eb;
+}
+#memberEmail{
+    width: 200px;
+    text-align: center;
+}
+.join-wrap input {
+    text-indent: 20px;
+}
+.join-wrap > select {
+    width: 180px;
+    text-align: center;
+    font-size: 100%;
+}
+.agree-wrap{
+    width: 500px;
+    margin: 0 auto;  
+    
+}
+.agree-explain{    
+    width: 100%;
+    margin: 15px auto;
+    height: 100px;
+    overflow: auto;
+    border: 1px solid #b3b3b3;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;    
+    font-size: 13px;        
+}
+.joinBtn-box{
+    width: 500px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+.joinBtn-box > button{
+    width: 100%;
+    height: 50px;
+    background-color: #72B37E;    
+    border: 1px solid #b3b3b3;
+    border-radius: 10px;
+    font-family: ns-r;
+    font-size: 100%;
+    cursor: pointer;     
+}
+
+/* login */
+
+.login-logo{
+    width : 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+.login-logo > img {    
+    text-align: center;
+    width: 120px;
+    height: 120px;
+}
+.login-box{
+    width: 500px;
+    margin: 0 auto;
+    border: 2px solid #b3b3b3;
+    border-radius: 10px;
+    padding: 15px;
+}
+.login-choiceBtn{
+    margin-bottom: 30px;
+}
+.login-choiceBtn > label{
+    margin: 60px;
+}
+.login-choiceBtn > label > input {
+    width: 30px;
+    height: 20px;
+}
+.login-choiceBtn>label>span{
+    padding-right: 30px;
+    font-size: 150%;
+    font-family: ns-r;
+}
+.login-box .login-wrap> label{
+    font-size: 100%;
+    font-family: ns-b;
+}
+.login-box .login-wrap>input{    
+    border-width: 0;
+    outline: none;
+    height: 50px;
+    width: 100%;   
+    border-bottom: 2px solid #ebebeb;
+    text-indent: 10px;
+    font-size: 120%;
+}
+.login-wrap{
+    margin-bottom: 40px;
+}
+.login-btn > button{
+    width: 100%;
+    height: 50px;
+    background-color:#f8d64f;
+    color:#fff;
+    font-size: 150%;
+    font-family: ns-eb;    
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.info-search{
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 20px;        
+}
+.id-search {
+    float: left;
+    width: 248px;
+    border-right: 1px solid #b3b3b3;
+
+}
+.pw-search{
+    float: left;
+    width: 250px;  
+}
+.info-search a{
+    text-decoration: none;
+    color: #b3b3b3;
+}
+
+.login-choiceBtn >label:first-child{
+    display: none;
+}
+
+/*searchId 아이디 찾기*/
+.id-search-title{
+    width: 400px;
+    margin: 165px auto;
+    margin-bottom: 0px;    
+    font-family: ns-eb;
+}
+.id-search-wrap{
+    width: 400px;
+    border: 1px solid #b3b3b3;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    border-radius: 5px;  
+    margin: 0 auto;    
+}
+.id-search-title > span{
+    color: #f04c4c;
+    font-size: 70%;
+    
+}
+.id-search-wrap div:first-child>label{
+    margin-right: 11px;
+}
+.id-search-wrap div:first-child{
+    margin-bottom: 10px;
+}
+.id-search-wrap div:nth-child(2){
+    margin-bottom: 10px;
+}
+
+.id-search-wrap div:first-child input{
+    outline: none;
+    border-width: 0px;
+    border: 1px solid #b3b3b3;    
+    width: 200px;
+    text-align: center;
+
+    
+}
+.id-search-wrap div:nth-child(2) input{
+    outline: none;
+    border-width: 0px;
+    border: 1px solid #b3b3b3;    
+    width: 200px;
+    text-align: center;
+}
+.id-search-wrap > .pass-num-box > input{
+    margin-left: 49px;    
+    width: 200px;
+    border: 1px solid #b3b3b3;
+	text-align: center;
+}
+
+.id-search-wrap button {
+    background-color :#72B37E;
+    border: 1px solid #b3b3b3;
+    color: #fff;
+    width: 110px;
+    cursor: pointer;    
+}
+
+.idInfo-box{
+    text-align: center;
+}
+
+/*searchPw 비밀번호 찾기*/
+.pw-search-title{
+    width: 400px;
+    margin: 165px auto;
+    margin-bottom: 0px;    
+    font-family: ns-eb;
+}
+.pw-search-wrap{
+    width: 400px;
+    border: 1px solid #b3b3b3;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    border-radius: 5px;  
+    margin: 0 auto;    
+}
+.pw-search-title > span{
+    color: #f04c4c;
+    font-size: 70%;
+    
+}
+
+.pw-search-wrap div:first-child{
+    margin-bottom: 10px;
+}
+.pw-search-wrap div:nth-child(2){
+    margin-bottom: 10px;
+}
+
+.pw-search-wrap div:first-child input{
+    outline: none;
+    border-width: 0px;
+    border: 1px solid #b3b3b3;    
+    width: 200px;
+    text-align: center;    
+}
+.pw-search-wrap div:nth-child(2) input{
+    outline: none;
+    border-width: 0px;
+    border: 1px solid #b3b3b3;    
+    width: 200px;
+    text-align: center;
+}
+.pw-search-wrap > .pass-num-box > input{
+    margin-left: 49px;    
+    width: 200px;
+    border: 1px solid #b3b3b3;
+    text-align: center;
+}
+.pw-search-wrap button {
+    background-color :#72B37E;
+    border: 1px solid #b3b3b3;
+    color: #fff;
+    width: 110px;
+    cursor: pointer;    
+}
+.pwChange{
+	text-align: center;
+}
+.pwChange button{
+	cursor: pointer;
+}
+
+/* update 정보수정*/
+
+.info-join-title{
+	margin-top : 15px;
+    text-align: center;  
+    font-family: ns-b; 
+    font-size: 200%; 
+}
+.info-join-wrap-box{
+    width: 500px;
+    margin: 0 auto;
+}
+.info-join-box{
+    background-color: #ffffff;    
+    width: 500px;
+    border: 1px solid #b3b3b3;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.info-join-box>p{
+    color: #b3b3b3;
+    font-size: 80%;
+}
+.info-join-box > p>span{
+    color: #ff0000;
+    font-family: ns-eb;
+}
+.info-join-box > .choiceBtn{
+    margin:0 auto;
+}
+.info-join-box > .choiceBtn > label{
+    margin: 60px;
+}
+.info-join-box >.choiceBtn>label>span{
+    padding-right: 20px;
+    font-size: 150%;    
+}
+.info-join-box >.choiceBtn>label>input{
+    width: 30px;
+    height: 20px;
+}
+.info-join-box >.info-join-wrap{
+    margin: 30px 0;       
+}
+.info-join-box> .info-join-wrap>input{
+    border-width: 0;
+    outline: none;
+    height: 35px;
+    width: 100%;   
+    border-bottom: 2px solid #ebebeb;
+    font-size: 100%;
+    font-family: ns-b;
+}
+.info-join-wrap>label>sup{
+    color: #ff0000;
+    font-family: ns-eb;
+}
+/*#memberEmail{
+    width: 200px;
+    text-align: center;
+}
+*/
+.info-join-wrap input {
+    text-indent: 20px;
+}
+.info-join-wrap > select {
+    width: 180px;
+    text-align: center;
+    font-size: 100%;
+}
+
+.info-joinBtn-box{
+    width: 500px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom : 30px;
+}
+#update{
+    float: left;
+    margin: 0 10px;
+    width: 230px;
+    height: 50px;
+    background-color: #72B37E;    
+    border: 1px solid #b3b3b3;
+    border-radius: 10px;
+    font-family: ns-b; 
+    font-size: 100%;   
+    cursor: pointer;
+    color: #fff;
+    word-spacing: 50px;
+}
+#out{
+    margin: 0 10px;
+    width: 230px;
+    height: 50px;
+    background-color: #f34a4a;    
+    border: 1px solid #b3b3b3;
+    border-radius: 10px;
+    font-family: ns-b;
+    font-size: 100%;   
+    cursor: pointer;
+    color: #fff;
+    word-spacing: 50px;
+}
+
+/* 비밀번호 변경 pwChangeFrm*/
+
+.pwchange-title { 
+    margin-top: 15px;
+    margin-bottom: 15px;     
+    text-align: center;  
+    font-family: ns-b; 
+    font-size: 150%;
+}
+.pwchange-box{       
+    width: 250px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #b3b3b3;
+    border-radius: 5px;
+}
+.pwchange-box input{
+    width: 100%;
+    border-width: 0;
+    border-bottom: 2px solid #ebebeb;
+    text-indent: 10px;
+    font-size: 120%;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+.pwchange-box button{    
+        width: 100%;
+        height: 30px;
+        background-color:#f8d64f;
+        color:#fff;
+        font-size: 100%;
+        font-family: ns-eb;    
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;   
+}
+
+.pwchange-box #memberId{
+    background-color: #ebebeb;
+    outline: none;
+    border-radius: 5px;
+}
+/* footer */
+
+footer {
+    color:#b3b3b3;
+    background-color: #fafcf6;   
+}
+footer > .footer-content-box{
+    width: 1200px;
+    padding: 20px;
+    overflow: hidden;
+    margin: 0 auto;
+    
+}
+footer > .sub-menu{        
+    border-top: 2px solid #ebebeb;
+    padding: 20px;    
+    border-bottom: 2px solid #ebebeb;
+}
+footer > .sub-menu > ul{
+    list-style-type: none;
+    overflow: hidden;
+    width: 1200px;
+    margin: 0 auto;
+    
+}
+footer > .sub-menu > ul > li { 
+    float: left;   
+    color: #b3b3b3;
+    margin : 0 50px;
+    text-decoration-style: none;       
+}
+footer ul li:last-child:hover{
+    font-weight: 900;
+}
+footer > .footer-content-box > .content{
+    width: 1200px;
+    padding: 20px;    
+    font-size: 80%;  
+    float: left;  
+}
+footer > .footer-content-box > img {
+    margin: 0 auto;
+    height: 100px;
+    width: 100px;
+    float: left;
+    margin-right: 50px;
+}
+footer > .footer-content-box > .footer-content > p {
+    color: #b3b3b3;      
+}
+footer > .footer-content-box > .footer-content > .call{       
+    text-align: right;  
+    font-size: 100%;
+    margin: 10px 0;  
+}
+footer > .footer-content-box > .footer-content > .call >img{
+    width: 20px;
+    height: 20px;    
+    margin-right: 10px;
+}
+footer > .footer-content-box > .footer-content > .call > span{
+    font-weight: 600;
+}
+footer > .footer-content-box > .last {   
+    font-size: 50%;
+}
+
+/* mypage-side */
+
+.hg-page-wrap{
+    width: 1200px;
+    margin: 0 auto;    
+    display: flex;
+}
+
+.hg-right{
+    float: left;   
+    margin-left: 80px;  
+    padding: 40px;
+}
+

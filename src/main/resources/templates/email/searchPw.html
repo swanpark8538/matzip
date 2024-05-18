@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	
+	  <div class="mid">
+        <div class="pw-search-title">
+            <h3>비밀번호 찾기</h3>
+            <span>본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.</span>
+        </div>
+        <div class="pw-search-wrap">            
+            <form  action="#" method="post">
+                <div>
+                    <label for="pw-search-id ">아이디</label>
+                    <input type="text" name="memberId" id="pw-search-id"><span id=checkId></span>
+                </div>
+                <div>
+                    <label for="pw-search-email">이메일</label>
+                    <input type="text" name="pw-search-email" id="pw-search-email">
+                    <button type="button" name="pw-search-email-btn" id="pw-search-email-btn">인증번호받기</button>
+				</div>
+                </form>                
+                <div class="pass-num-box" style="display:none;">
+                 	<input type="text" name="pass-num" id="pass-num" placeholder="인증번호 6자리입력">
+                    <button type="button" id="pass-num-btn" >인증하기</button>
+                </div>
+                <div class=pwChange style="display:none;" >
+                	<span id="pass"></span><a href="/member/pwChange" id="pw-change-link"><button type="button">비밀번호변경</button></a>
+                </div>                      
+	        </div>
+	    </div>    
+	<th:block th:include="common/footer"></th:block>
+	<script>
+	/*
+	$("#pw-search-id").on("change",function(){
+		const memberId = $(this).val();
+		$.ajax({
+			url: "/mail/checkId",
+			type:"get",
+			data:{memberId : memberId},			
+			success : function(data){
+				if(data==0){
+					$("#checkId").text(" ---- 확인불가");
+					$("#checkId").css("color","red");
+					$("#pw-search-id").css("border", "1px solid red");
+				}else if(data==1){
+					$("#checkId").text(" ------ 확인");
+					$("#checkId").css("color","blue");
+					$("#pw-search-id").css("border", "1px solid blue");
+				}
+			},
+			error : function(){
+				console.log("error");
+			}
+		});
+	});
+	*/
+	let mailCode = null;
+	let memberId = null;
+	$("#pw-search-email-btn").on("click", function() {
+	    memberId = $("#pw-search-id").val();
+	    const memberEmail = $("#pw-search-email").val();	    
+	    $.ajax({
+	        url: "/mail/checkId",
+	        type: "get",
+	        data: { memberId: memberId, memberEmail: memberEmail },
+	        success: function(data) {
+	            if (data === "1") {
+	                $.ajax({
+	                    url: "/mail/sendMail",
+	                    type: "post",
+	                    data: { memberEmail: memberEmail },
+	                    success: function(data) {
+	                        $("#checkId").text(" ------ 확인");
+	                        $("#checkId").css("color", "blue");
+	                        $("#pw-search-id").css("border", "1px solid blue");
+	                        $("#pw-search-email").css("border", "1px solid blue");
+	                        console.log(data);
+	                        $(".pass-num-box").show();
+	                        mailCode = data;
+	                    },
+	                    error: function() {
+	                        console.log("이메일 전송 에러");
+	                    }
+	                });
+	            } else if (data === "0") {
+	                $("#checkId").text(" ---- 확인불가");
+	                $("#checkId").css("color", "red");
+	                $("#pw-search-Id").css("border", "1px solid red");
+	            }
+	        },
+	        error: function() {
+	            console.log("에러");
+	        }
+	    });
+	});
+	
+	$("#pass-num-btn").on("click",function(){
+		const passNum = $("#pass-num").val();
+		if(passNum == mailCode){
+			$("#pass").text("인증완료 ");
+			$("#pass").css("color","blue");
+			$("#pass-num").css("border", "1px solid blue");
+            $(".pwChange").show();
+            $("#pw-change-link").attr("href", "/member/pwChange?memberId=" + memberId);
+		}else{
+			$("#pass").text("인증번호를 확인하세요");
+			$("#pass").css("color"," red");
+			$("#pass-num").css("border", "1px solid red");
+		}
+	});
+	
+	</script>
+</body>
+</html>

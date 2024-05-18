@@ -1,0 +1,511 @@
+@font-face {
+    font-family: ns-r;
+    src: url(Noto_Sans_KR/static/NotoSansKR-Regular.ttf);
+}
+@font-face {
+    font-family: ns-black;
+    src: url(Noto_Sans_KR/static/NotoSansKR-Black.ttf);
+}
+@font-face{
+    font-family: ns-b;
+    src: url(Noto_Sans_KR/static/NotoSansKR-Bold.ttf)
+}
+.content{
+	width: 1200px;
+	margin:0 auto;
+	display:flex;
+}
+.s-content{
+	padding: 60px;
+	display:flex;
+}
+.s-content *{
+    margin: 0;
+    padding: 0;
+    font-family: ns-r;
+    box-sizing: border-box;
+}
+.s-content a{
+    text-decoration: none;
+}
+.s-bg{
+    background-color: #72B37E;
+}
+.s-tbl {
+    width: 100%;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+s-bc{   /*버튼*/
+    border: none;
+    padding: 1rem;
+    display: inline-block;
+    box-sizing: border-box;
+    transition-duration: 0.5s;
+    font-size: 16px;
+    font-family: ns-light;
+}
+s-bc:hover{
+    cursor: pointer;
+    font-size: 1.1em;
+}
+.s-input-form {
+    width: 500px;
+    display: block;
+    padding: 0.5rem;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.s-input-form:focus {
+    box-shadow: 0 0 0 0.1rem #eee;
+}
+textarea.s-input-form {
+    resize: none;
+    min-height: 70px;
+    margin-left: 10px;
+}
+.s-input-form:read-only:not(select),
+.s-input-form:disabled {
+    background-color: #f7f7f9;
+}
+.s-input-wrap{
+	padding : 5px;
+}
+.s-input-wrap>label{
+	display: block;
+	margin-bottom: 10px;
+}
+s-img-view{
+    text-align: center;
+}
+#s-selectLable{
+    display: inline;
+}
+
+
+/*사업자번호 인증, 매장등록*/
+#enrollStoreForm{
+    border: 1px solid #ccc;
+    padding: 10px;
+    padding-bottom: 50px;
+    border-radius: 15px;
+}
+[name=closedDay]{
+    margin-left: 10px;
+}
+#s-bussniessContent{
+    margin: 0 auto;
+    text-align: center;
+    padding: 100px;
+    padding-left: 150px;
+    width: 600px;
+}
+.s-title1{
+    font-family: ns-b;
+    padding-bottom: 10px;
+}
+.s-title2{
+    font-family: ns-b;
+    padding-bottom: 20px;
+}
+.s-title3{
+    font-family: ns-b;
+    padding-bottom: 10px;
+    font-size: 18px;
+    padding-left: 30px;
+}
+.s-inputDiv{
+    padding-top: 20px;
+    height: 100px;
+}
+.s-enrollbutton{
+    width: 200px;
+    height: 50px;
+    background-color: #72B37E;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+#s-enrollNonbutton{
+	background-color: #b5b5b5;
+}
+#s-enrollNextbutton{
+	/*display:none;*/
+}
+#s-bussinessNum {
+    width: 300px;
+    padding: 0.8rem;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    height: 40px;
+}
+#s-bussinessNum:focus {
+    box-shadow: 0 0 0 0.1rem #eee;
+}
+
+#s-enrollStoreContent{
+    padding: 30px;
+    padding-left: 50px;
+    width: 800px;
+    box-sizing: border-box;
+    margin: 0 auto;
+
+}
+.s-enrolldiv{
+    margin: 0 auto;
+    padding-left: 30px;
+    width: 600px;
+    box-sizing: border-box;
+    padding-right: 30px;
+    margin-bottom: 30px;
+}
+.s-enrollbutton{
+    width: 200px;
+    height: 50px;
+    background-color: #72B37E;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.s-content sup{
+	color:red;
+}
+
+.s-input-wrap {
+    margin-bottom: 10px;
+}
+s
+.s-input-wrap label {
+    display: inline-block;
+    width: 120px;
+}
+
+
+.s-input-wrap select{
+    margin-left: 10px;
+}
+
+.s-input-wrap input[type="text"],
+.s-input-wrap input[type="file"] {
+    margin-left: 10px;
+}
+
+.s-img-view {
+    margin-top: 5px;
+}
+
+.s-enrollStoreForm{
+    width: 800px;
+    margin: 0 auto;
+
+}
+
+.s-smallexplain{
+    color: #b3b3b3;
+    font-size: 14px;
+    text-align: right;
+}
+
+.s-enrollStoreImgBox{
+    padding-left: 130px;
+}
+
+.s-menu-div{
+    border: 1px solid #ccc;
+    padding-top: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    height: 150px;
+}
+
+.s-menu-input{
+    display: inline;
+    padding: 0.5rem;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    width: 160px;
+    height: 30px;
+    margin-top: 10px;
+}
+.s-menu-input{
+    display: inline;
+    padding: 0.5rem;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    width: 160px;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.s-menu-input:focus {
+    box-shadow: 0 0 0 0.1rem #eee;
+}
+
+.s-img-viewer{
+    width: 150px;
+    padding: 10px;
+
+}
+
+.s-img-viewerVal{
+    padding-top: 30px;
+}
+
+.minusMenu,.plusMenu{
+    font-size: 15px;
+    color: rgb(248, 114, 37);
+    background-color: #ffffff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+/*myStore*/
+		.tabnav {
+			font-size: 0;
+			border: 1px solid #ddd;
+		}
+
+		.tabnav li {
+			display: inline-block;
+			height: 46px;
+			text-align: center;
+			border-right: 1px solid #ddd;
+		}
+
+		.tabnav li a:before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 0px;
+			width: 100%;
+			height: 3px;
+		}
+
+		.tabnav li a.active:before {
+			background: #72B37E;
+		}
+
+		.tabnav li a.active {
+			border-bottom: 1px solid #fff;
+		}
+
+		.tabnav li a {
+			position: relative;
+			display: block;
+			background: #f8f8f8;
+			color: #000;
+			padding: 0 30px;
+			line-height: 46px;
+			text-decoration: none;
+			font-size: 16px;
+		}
+
+		.tabnav li a:hover,
+		.tabnav li a.active {
+			background: #fff;
+			color: #72B37E;
+		}
+
+		.tabcontent {
+			padding: 40px;
+			border: 1px solid #ddd;
+			border-top: none;
+		}
+		.tabcontent>#tab01 img{
+			width: 35%;
+			padding-bottom: 10px;
+		}
+		.s-storeInfo{
+    		padding-left: 60px ;
+    		width: 750px;
+    		box-sizing: border-box;
+    		margin: 0 auto;
+    		padding-bottom: 50px;
+		}
+		.s-info-wrap{
+    		padding: 15px;
+		}
+		.s-info-wrap>div:first-child{
+		    margin-bottom: 10px;
+		}
+		.s-info {
+		    width: 100%;
+		    padding: 0.5rem;
+		    background-color: #fff;
+		    outline: none;
+		    border: 1px solid #ccc;
+		    box-sizing: border-box;
+		    height: 35px;
+		    font-size: 14px;
+		}
+		.s-storeInfo th{
+		    height: 40px;
+		    text-align: right;
+		    font-weight: 500;
+		    padding-right: 10px;
+		}
+		.s-storeInfo td{
+		    padding-left: 10px;
+		    text-align: left;
+		}
+		.tabcontent table{
+			padding: 1rem;
+    		background-color: #fff;
+    		outline: none;
+    		border: 1px solid #ccc;
+    		box-sizing: border-box;
+    		width: 100%;
+		}
+		.menuInfo{
+			border: 1px solid #ccc;
+			height: 80px;
+		}
+		.goStore{
+    		background-color: #72B37E;
+		    color: #fff;
+		    font-size: 15px;
+		    border-radius: 5px;
+		    text-align: center;
+		    border: none;
+		    cursor: pointer;
+		    width: 80px;
+		    height: 40px;
+		    line-height: 40px;
+		    float:right;
+		    margin :10px;
+		}
+		.store-status{
+			text-align: right;
+			margin-bottom: 5px;
+			font-weight: 700;
+			font-size: 16px;
+		}
+		.menuShow{
+			font-size: 18px;
+			padding-right: 2px;
+		}
+		.s-lastTh{
+			padding-top: 3px;
+			padding-bottom: 3px;
+		}
+		.menuBtn{
+    		color: rgb(248, 114, 37);
+    		background-color: #ffffff;
+    		border-radius: 3px;
+    		cursor: pointer;
+    		text-align: right;
+    		/*padding-top: 5px;*/
+    		font-size: 15px;
+    		padding-left: 7px;
+		}
+		.menuBox input{
+    		margin-left: 10px;
+		}
+		.menuBox{
+			border-radius: 7px;
+			margin-bottom: 10px;
+			overflow: hidden;
+			height: 150px;
+			padding: 15px;
+		}
+		.s-img-view{
+			margin: 10px;
+			
+		}
+		.menuBoxIn{
+			display: flex;
+		}
+		.menuBoxInput{
+			/*width: 400px;*/
+			width: 430px;
+			padding-top: 30px;
+		}
+		
+.cancelBtn{
+	padding-left: 13px;
+    color: #db5a5a;
+    /* text-align: right; */
+    font-size: 18px;
+    font-weight: 500;
+}
+.won{
+	 padding-left: 5px;font-size:15px;
+}
+.s-storeInfo th{
+	font-weight: 500;
+}
+/*mystore*/
+.s-info {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    height: 35px;
+    font-size: 14px;
+}
+.s-storeInfo th{
+    height: 40px;
+    text-align: right;
+    font-weight: 500;
+}
+.s-storeInfo td{
+    padding-left: 10px;
+    text-align: left;
+}
+.s-table{
+	padding: 0.2rem;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ccc;
+    width: 35px;
+    margin-right: 2px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.s-label{
+    margin-bottom: 10px;
+}
+.s-field{
+	border: 1px solid #ccc;
+	margin-bottom: 10px;
+	width: 510px;
+	padding: 10px;
+	padding-bottom: 15px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.s-field>legend{
+	padding: 3px 6px;
+	
+}
+.s-field>div>span{
+	padding-right: 40px;
+}
+.s-field>div{
+	text-align: center;
+}
+.s-input-wrap11{
+	padding: 5px;
+}

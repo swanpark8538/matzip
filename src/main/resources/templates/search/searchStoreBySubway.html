@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>맛집 : 역에서 검색</title>
+  <link rel="stylesheet" href="/css/searchStoreBySubway.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- jquery -->
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Stylish&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Stylish&display=swap"
+    rel="stylesheet">
+
+</head>
+<th:block th:include="common/header"></th:block>
+
+<body>
+  <div class="page-wrap">
+    <div class="page-content1">
+      <div class="menu">
+        <div class="subway-line-menu" id="menu">
+          <div id="line1-menu" class="line-menu" onclick="toggleStations('line1'); colorChange(this); ">1호선
+          </div>
+          <div id="line2-menu" class="line-menu" onclick="toggleStations('line2'); colorChange(this); ">2호선
+          </div>
+          <div id="line3-menu" class="line-menu" onclick="toggleStations('line3'); colorChange(this); ">3호선
+          </div>
+          <div id="line4-menu" class="line-menu" onclick="toggleStations('line4'); colorChange(this); ">4호선
+          </div>
+          <div id="line5-menu" class="line-menu" onclick="toggleStations('line5'); colorChange(this); ">5호선
+          </div>
+          <div id="line6-menu" class="line-menu" onclick="toggleStations('line6'); colorChange(this); ">6호선
+          </div>
+          <div id="line7-menu" class="line-menu" onclick="toggleStations('line7'); colorChange(this); ">7호선
+          </div>
+          <div id="line8-menu" class="line-menu" onclick="toggleStations('line8'); colorChange(this); ">8호선
+          </div>
+          <div id="line9-menu" class="line-menu" onclick="toggleStations('line9'); colorChange(this); ">9호선
+          </div>
+        </div>
+
+        <div id="line1" class="station-list" style="display: none;">
+          <!-- 1호선 역 목록 -->
+          <ul>
+            <li>소요산역</li>
+          </ul>
+        </div>
+        <div id="line2" class="station-list" style="display: none;">
+          <ul>
+            <li id="dangsan-station">당산역</li>
+            <li id="sindorim-station">신도림역</li>
+            <li id="konkuk-university-entrance-station">건대입구역</li>
+            <li id="jamsil-station">잠실역</li>
+            <li id="gangnam-station">강남역</li>
+            <!-- 나머지 2호선 역들 -->
+          </ul>
+        </div>
+        <!-- 3호선 역 목록 -->
+        <div id="line3" class="station-list" style="display: none;">
+          <ul>
+            <li>대화역</li>
+            <li>주엽역</li>
+            <li>정발산역</li>
+            <!-- 나머지 3호선 역들 -->
+          </ul>
+        </div>
+
+        <!-- 4호선 역 목록 -->
+        <div id="line4" class="station-list" style="display: none;">
+          <ul>
+            <li>당고개역</li>
+            <li>상계역</li>
+            <li>노원역</li>
+            <!-- 나머지 4호선 역들 -->
+          </ul>
+        </div>
+        <!-- 나머지 노선에 대한 역 목록 div들도 여기에 포함 -->
+        <!-- 5호선 역 목록 -->
+        <div id="line5" class="station-list" style="display: none;">
+          <ul>
+            <li>방화역</li>
+            <li>개화산역</li>
+            <li>김포공항역</li>
+            <!-- 나머지 5호선 역들 -->
+          </ul>
+        </div>
+
+        <!-- 6호선 역 목록 -->
+        <div id="line6" class="station-list" style="display: none;">
+          <ul>
+            <li>응암역</li>
+            <li>역촌역</li>
+            <li>불광역</li>
+            <!-- 나머지 6호선 역들 -->
+          </ul>
+        </div>
+
+        <!-- 7호선 역 목록 -->
+        <div id="line7" class="station-list" style="display: none;">
+          <ul>
+            <li>장암역</li>
+            <li>도봉산역</li>
+            <li>수락산역</li>
+            <!-- 나머지 7호선 역들 -->
+          </ul>
+        </div>
+
+        <!-- 8호선 역 목록 -->
+        <div id="line8" class="station-list" style="display: none;">
+          <ul>
+            <li>암사역</li>
+            <li>천호역</li>
+            <li>강동구청역</li>
+            <!-- 나머지 8호선 역들 -->
+          </ul>
+        </div>
+
+        <!-- 9호선 역 목록 -->
+        <div id="line9" class="station-list" style="display: none;">
+          <ul>
+            <li>개화역</li>
+            <li>김포공항역</li>
+            <li>공항시장역</li>
+            <!-- 나머지 9호선 역들 -->
+          </ul>
+        </div>
+      </div>
+      <div class="search-by-subway">
+        <img alt="" src="/img/2호선 그림.png">
+
+        <div class="subway-line">
+          <div class="subway-station" id="jamsil-station">
+            <div>
+              <span class="material-icons"> circle </span>
+              <div class="subway-station-name">잠실</div>
+            </div>
+          </div>
+          <div class="subway-station" id="gangnam-station">
+            <div>
+              <span class="material-icons"> circle </span>
+              <div class="subway-station-name">강남</div>
+            </div>
+          </div>
+          <div class="subway-station" id="dangsan-station">
+            <div>
+              <span class="material-icons"> circle </span>
+              <div class="subway-station-name">당산</div>
+            </div>
+          </div>
+          <div class="subway-station" id="sindorim-station">
+            <div>
+              <span class="material-icons"> circle </span>
+              <div class="subway-station-name">신도림</div>
+            </div>
+          </div>
+          <div class="subway-station" id="konkuk-university-entrance-station">
+            <div>
+              <span class="material-icons"> circle </span>
+              <div class="subway-station-name">건대입구</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-content2">
+      <div class="division-bar"></div>
+
+      <div class="content2-title" id="content2-title"></div>
+
+
+      <div class="store-all-list">
+        <!-- <div class="store-all">
+					<div class="store-content3">
+						<img src="/img/맛zip로고.png" alt="">
+						<span class="material-icons">
+							favorite_border
+						</span>
+					</div>
+
+
+					<div class="store-content4">
+						<div>1</div>
+						<div>
+							<span>1</span>
+							<span>1</span>
+						</div>
+						<div>1</div>
+						<div>1</div>
+						<div>
+							<span class="material-icons">
+								comment
+							</span>
+							<span>1</span>
+							<span class="material-icons">
+								favorite
+							</span>
+							<span>1</span>
+						</div>
+					</div>
+				</div>
+				<div class="store-all">
+					<div class="store-content3">
+						<img src="/img/맛zip로고.png" alt="">
+						<span class="material-icons">
+							favorite_border
+						</span>
+					</div>
+
+
+					<div class="store-content4">
+						<div>1</div>
+						<div>
+							<span>1</span>
+							<span>1</span>
+						</div>
+						<div>1</div>
+						<div>1</div>
+						<div>
+							<span class="material-icons">
+								comment
+							</span>
+							<span>1</span>
+							<span class="material-icons">
+								favorite
+							</span>
+							<span>1</span>
+						</div>
+					</div>
+				</div>
+				<div class="store-all">
+					<div class="store-content3">
+						<img src="/img/맛zip로고.png" alt="">
+						<span class="material-icons">
+							favorite_border
+						</span>
+					</div>
+
+
+					<div class="store-content4">
+						<div>1</div>
+						<div>
+							<span>1</span>
+							<span>1</span>
+						</div>
+						<div>1</div>
+						<div>1</div>
+						<div>
+							<span class="material-icons">
+								comment
+							</span>
+							<span>1</span>
+							<span class="material-icons">
+								favorite
+							</span>
+							<span>1</span>
+						</div>
+					</div>
+				</div>
+				<div class="store-all">
+					<div class="store-content3">
+						<img src="/img/맛zip로고.png" alt="">
+						<span class="material-icons">
+							favorite_border
+						</span>
+					</div>
+
+
+					<div class="store-content4">
+						<div>1</div>
+						<div>
+							<span>1</span>
+							<span>1</span>
+						</div>
+						<div>1</div>
+						<div>1</div>
+						<div>
+							<span class="material-icons">
+								comment
+							</span>
+							<span>1</span>
+							<span class="material-icons">
+								favorite
+							</span>
+							<span>1</span>
+						</div>
+					</div>
+				</div>
+				<div class="store-all">
+					<div class="store-content3">
+						<img src="/img/맛zip로고.png" alt="">
+						<span class="material-icons">
+							favorite_border
+						</span>
+					</div>
+
+
+					<div class="store-content4">
+						<div>1</div>
+						<div>
+							<span>1</span>
+							<span>1</span>
+						</div>
+						<div>1</div>
+						<div>1</div>
+						<div>
+							<span class="material-icons">
+								comment
+							</span>
+							<span>1</span>
+							<span class="material-icons">
+								favorite
+							</span>
+							<span>1</span>
+						</div>
+					</div>
+				</div>
+
+				<button class="btn2"><span>더보기</span></button>
+
+
+			</div>
+
+			-->
+      </div>
+    </div>
+
+
+
+    <!-- <div id="modal" class="modal-bg">
+		<div class="modal-content">
+			<div class="close-wrap">
+				<h2 id="station-name">Station Name</h2>
+				<div class="close-button">&times;</div>
+			</div>
+
+
+			<div class="store-top5">
+				<div class="store-content1">
+					<div><img src="/img/맛zip로고.png" alt=""></div>
+					<span class="material-icons">
+						favorite_border
+						</span>
+				</div>
+
+				<div class="store-content2">
+					<div>1</div>
+					<div>
+						<span>1</span>
+						<span>1</span>
+					</div>
+					<div>1</div>
+					<div>1</div>
+					<div>
+						<span class="material-icons">
+							comment
+							</span>
+						<span>1</span>
+						<span class="material-icons">
+							favorite
+							</span>
+						<span>1</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+    <div id="modal" class="modal-bg">
+      <div class="modal-content">
+        <div class="close-wrap">
+          <h2 id="station-name">Station Name</h2>
+          <div class="close-button">&times;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+
+
+    $(".station-list li").on("mouseover", function () {
+      $(this).css("color", "#365486");
+      $(this).css("font-size", "25px");
+    })
+
+    $(".station-list li").on("mouseout", function () {
+      $(this).css("color", "white");
+      $(this).css("font-size", "20px");
+    })
+
+    function toggleStations(lineId) {
+      // scrollToTop(0, 70);
+
+      // 모든 역 목록을 숨김
+      //const allStations = document.querySelectorAll('.station-list');
+      const allStations = $(".station-list");
+      allStations.hide();
+
+      // 선택된 노선의 역 목록을 토글
+      let selectedStations = $("#lineId");
+
+      $("#" + lineId).toggle();
+    }
+
+    // function scrollToTop(x, y) {
+    // 	window.scrollTo(x, y);
+    // }
+
+    // function mouseOverFunc(element){
+    // 	const allStations = $(".station-list");
+    // 	const id = element.id;
+
+    // 	if (id == 'line1-menu'){
+    // 		$(element).addClass('transition-background').css('background', 'linear-gradient(to bottom, #C34A36, #FF8066)');
+    // 	}
+    // }
+    $(".line-menu").on("mouseover", function () {
+      $(this).css("background-color", "#C5EBAA").css("transition", "0.3s");
+      $(this).css("color", "#365486").css("font-weight", "900");
+
+
+    })
+
+    $(".line-menu").on("mouseout", function () {
+      $(this).css("background-color", "white").css("transition", "0.3s");
+      $(this).css("color", "black").css("font-weight", "300");
+    })
+
+    function colorChange(element) {
+      const allStations = $(".station-list");
+      const id = element.id;
+      const lineMenu = $(".line-menu");
+
+      //const allMenu = document.querySelectorAll('.subway-line-menu > div');
+      const allMenu = $(".subway-line-menu > div");
+
+      // // 전부 흰색
+      allMenu.css('background', 'white');
+
+      // // 모든 역의 배경색을 흰색으로 설정
+      allStations.css('background', 'white');
+      $(element).css('background', '#C5EBAA').css("transition", "0.5s");
+
+      allStations.each(function (index, item) {
+        //$(this)
+        $(item).css('background', '#C5EBAA').css("transition", "0.5s");
+      });
+    }
+
+
+
+
+    let start = 1;
+    let amount = 5;
+    let currentCount = 0;
+    let totalCount = 0;
+
+    //원하는 역을 클릭했을때 모달띄우기
+    function ajaxStation(stationName) {
+      console.log("클릭한 역 이름 : " + stationName);
+      $.ajax({
+        url: "/search/ajaxSelectTop5Store",
+        type: "get",
+        data: { stationName: stationName },
+        success: function (data) {
+          console.log(data);
+          $(".store-top5").remove();
+          $(".btn").remove();
+          $(".store-all-list").empty();
+          $(".btn2").remove();
+          start = 1;
+          currentCount = 0;
+          //탑5모달 띄우기
+          //data 배열을 반복 처리하여 각 상점에 대한 HTML 마크업을 생성합니다.
+          // $.each(data, function (index, store) {
+          // 	if (store !== null) {
+          // 		const storeHtml =
+          // 			'<div class="store-top5">' +
+          // 			'<div class="store-content1">' +
+          // 			//'<div>' + store.storeImg + '</div>' +
+          // 			'<img src="/img/맛zip로고.png" alt="">' +
+          // 			'<span class="material-icons heart-text">favorite_border</span>' +
+          // 			'</div>' +
+          // 			'<div class="store-content2 padding-left80">' +
+          // 			'<div id="reviewScore-text">' + store.reviewScore + '점</div>' +
+          // 			'<div>' +
+          // 			'<span>' + store.storeName + '</span>' +
+          // 			'<span class="padding-left20" id="operationStatus-text">' + store.operationStatus + '</span>' +
+          // 			'</div>' +
+
+          // 			'<div>' + store.subwayName + '역</div>' +
+          // 			'<div>' + store.foodType + '</div>' +
+          // 			'<div>' +
+          // 			'<span class="material-icons message-text">comment</span>' +
+          // 			'<span class="padding-right20 font-size20">' + store.reviewCount + '</span>' +
+          // 			'<span class="material-icons heart-text">favorite</span>' +
+          // 			'<span class="font-size20">' + store.likeCount + '</span>' +
+          // 			'</div>' +
+          // 			'</div>'
+          // 		'</div>';
+          // 		$(".modal-content").append(storeHtml);
+          // 	}
+          // });
+
+          $.each(data, function (index, store) {
+            if (store !== null && store.storeStatus == 1 ) {
+              const storeDiv = $("<div>").addClass("store-top5").on("click", function () {
+                location.href = "/search/conveyStoreInfoToDetail?storeNo=" + store.storeNo;
+              }).on("mouseover", function () {
+                $(this).css("background-color", "#F1EAFF");
+              }).on("mouseout", function () {
+                $(this).css("background-color", "white");
+              });
+              // $(".store-top5").on("mouseover",function(){
+              //   $(this).css("background-color","#9AD0C2");
+              // })
+              // $(".store-top5").on("mouseout",function(){
+              //   $(this).css("background-color","white");
+              // })
+
+
+              const storeContent1 = $("<div>").addClass("store-content1");
+              const img = $('<img>').attr("src", "/store/" + store.storeImg).attr("alt", "").addClass("imgScale");
+              storeContent1.append(img);
+
+              const storeContent2 = $("<div>").addClass("store-content2 padding-left80");
+              const reviewScore = $("<div>").attr("id", "reviewScore-text").text(store.reviewScore + '점');
+              const storeNameOperation = $("<div>");
+              const storeName = $("<span>").text(store.storeName);
+              const operationStatus = $("<span>").addClass("padding-left20").attr("id", "operationStatus-text").text(store.operationStatus);
+              storeNameOperation.append(storeName, operationStatus);
+
+              const subwayName = $("<div>").text(store.subwayName + '역');
+              const foodType = $("<div>").text(store.foodType);
+              const reviewLikeDiv = $("<div>");
+              const commentIcon = $("<span>").addClass("material-icons message-text").text("comment");
+              const reviewCount = $("<span>").addClass("padding-right20 font-size20").text(store.reviewCount);
+              // const favoriteIcon = $("<span>").addClass("material-icons heart-text").text("favorite");
+              // const likeCount = $("<span>").addClass("font-size20").text(store.likeCount);
+              //reviewLikeDiv.append(commentIcon, reviewCount, favoriteIcon, likeCount);
+              reviewLikeDiv.append(commentIcon, reviewCount);
+
+              storeContent2.append(reviewScore, storeNameOperation, subwayName, foodType, reviewLikeDiv);
+              storeDiv.append(storeContent1, storeContent2);
+
+              $(".modal-content").append(storeDiv);
+            }
+          });
+
+          // const moreBtn = 
+          // 	'<div class="btn">' + 
+          // 		'<a class="more-btn" onclick="btn();">'+
+          // 	    	'<span></span>'+
+          // 	    	'<span></span>'+
+          // 	    	'<span></span>'+
+          // 	    	'<span></span>'+
+          // 	    	'더보기'+
+          // 		'</a>' +
+          // 	'</div>';
+          // $(".modal-content").append(moreBtn);
+
+          const div = $("<div>").addClass("btn");
+          const a = $("<a>").addClass("more-btn").text("더보기");
+          for (let i = 0; i < 4; i++) {
+            a.append($("<span>"));
+          }
+
+          a.on("click", function () {
+            console.log(stationName);
+            $(".content2-title").text(stationName + "역 맛집");
+            $("#modal").hide(); // 모달 숨기기
+            $("body").css("overflow", "auto"); // 스크롤 다시 활성화
+            //밑에 매점리스트를 삭제해야함. 있다면
+            $.ajax({
+              url: "/search/ajaxStoreList2",
+              type: "get",
+              data: { stationName: stationName, start: start, amount: amount },
+
+              success: function (data) {
+                // $.each(data.searchList, function (index, store) {
+                // 	if (store !== null) {
+                // 		const storeListHtml =
+                // 			'<div class="store-all">' +
+                // 			'<div class="store-content3">' +
+                // 			//'<div>' + store.storeImg + '</div>' +
+                // 			'<img src="/img/맛zip로고.png" alt="">' +
+                // 			'<span class="material-icons heart-text">favorite_border</span>' +
+                // 			'</div>' +
+                // 			'<div class="store-content4 padding-left80">' +
+                // 			'<div id="reviewScore-text">' + store.reviewScore + '점</div>' +
+                // 			'<div>' +
+                // 			'<span>' + store.storeName + '</span>' +
+                // 			'<span class="padding-left20" id="operationStatus-text">' + store.operationStatus + '</span>' +
+                // 			'</div>' +
+                // 			'<div>' + store.subwayName + '역</div>' +
+                // 			'<div>' + store.foodType + '</div>' +
+                // 			'<div>' +
+                // 			'<span class="material-icons message-text">comment</span>' +
+                // 			'<span class="padding-right20 font-size20">' + store.reviewCount + '</span>' +
+                // 			'<span class="material-icons heart-text">favorite</span>' +
+                // 			'<span class="font-size20">' + store.likeCount + '</span>' +
+                // 			'</div>' +
+                // 			'</div>'
+                // 		'</div>';
+                // 		$(".store-all-list").append(storeListHtml);
+                // 	}
+                // })
+
+                $.each(data.searchList, function (index, store) {
+                  if (store !== null  && store.storeStatus == 1 ) {
+                    const storeDiv = $("<div>").addClass("store-all").on("click", function () {
+                      location.href = "/search/conveyStoreInfoToDetail?storeNo=" + store.storeNo;
+                    }).on("mouseover", function () {
+                      $(this).css("background-color", "#F1EAFF");
+                    }).on("mouseout", function () {
+                      $(this).css("background-color", "white");
+                    });
+                    const storeContent3 = $("<div>").addClass("store-content3");
+                    const img = $('<img>').attr("src", "/store/" + store.storeImg).attr("alt", "").addClass("imgScale");
+
+                    storeContent3.append(img);
+
+                    const storeContent4 = $("<div>").addClass("store-content4 padding-left80");
+                    const reviewScore = $("<div>").attr("id", "reviewScore-text").text(store.reviewScore + '점');
+                    const storeNameOperation = $("<div>");
+                    const storeName = $("<span>").text(store.storeName);
+                    const operationStatus = $("<span>").addClass("padding-left20").attr("id", "operationStatus-text").text(store.operationStatus);
+                    storeNameOperation.append(storeName, operationStatus);
+
+                    const subwayName = $("<div>").text(store.subwayName + '역');
+                    const foodType = $("<div>").text(store.foodType);
+                    const reviewLikeDiv = $("<div>");
+                    const commentIcon = $("<span>").addClass("material-icons message-text").text("comment");
+                    const reviewCount = $("<span>").addClass("padding-right20 font-size20").text(store.reviewCount);
+                    // const favoriteIcon = $("<span>").addClass("material-icons heart-text").text("favorite");
+                    // const likeCount = $("<span>").addClass("font-size20").text(store.likeCount);
+                    //reviewLikeDiv.append(commentIcon, reviewCount, favoriteIcon, likeCount);
+                    reviewLikeDiv.append(commentIcon, reviewCount);
+
+                    storeContent4.append(reviewScore, storeNameOperation, subwayName, foodType, reviewLikeDiv);
+                    storeDiv.append(storeContent3, storeContent4);
+
+                    $(".store-all-list").append(storeDiv);
+                  }
+                });
+                // const btn2 = '<button class="btn2"><span>더보기</span></button>';
+                // $(".store-all-list").append(btn2);
+                // 버튼 요소를 생성하고 클래스 추가
+
+
+                const button = $("<button>").addClass("btn2");
+
+                // span 요소를 생성하고 텍스트 설정
+                const span = $("<span>").text("더보기");
+
+                // span을 button에 추가
+                button.append(span);
+
+                //화면추가가 끝난시점 -> 다음더보기를 위한 값 수정
+                start = start + amount;
+                //currentCount 값 변경
+                currentCount = currentCount + data.searchList.length;
+                totalCount = data.totalCount;
+
+                console.log("total1 : " + totalCount);
+                console.log("current1 : " + currentCount);
+
+
+
+                button.on("click", function () {
+                  $.ajax({
+                    url: "/search/ajaxStoreList2",
+                    type: "get",
+                    data: { stationName: stationName, start: start, amount: amount },
+                    success: function (data) {
+                      //console.log(data);
+                      //console.log(data.searchList);
+
+
+                      // $.each(data.searchList, function (index, store) {
+                      // 	if (store !== null) {
+                      // 		const storeListHtml =
+                      // 			'<div class="store-all">' +
+                      // 			'<div class="store-content3">' +
+                      // 			//'<div>' + store.storeImg + '</div>' +
+                      // 			'<img src="/img/맛zip로고.png" alt="">' +
+                      // 			'<span class="material-icons heart-text">favorite_border</span>' +
+                      // 			'</div>' +
+                      // 			'<div class="store-content4 padding-left80">' +
+                      // 			'<div id="reviewScore-text">' + store.reviewScore + '점</div>' +
+                      // 			'<div>' +
+                      // 			'<span>' + store.storeName + '</span>' +
+                      // 			'<span class="padding-left20" id="operationStatus-text">' + store.operationStatus + '</span>' +
+                      // 			'</div>' +
+
+                      // 			'<div>' + store.subwayName + '역</div>' +
+                      // 			'<div>' + store.foodType + '</div>' +
+                      // 			'<div>' +
+                      // 			'<span class="material-icons message-text">comment</span>' +
+                      // 			'<span class="padding-right20 font-size20">' + store.reviewCount + '</span>' +
+                      // 			'<span class="material-icons heart-text">favorite</span>' +
+                      // 			'<span class="font-size20">' + store.likeCount + '</span>' +
+                      // 			'</div>' +
+                      // 			'</div>'
+                      // 		'</div>';
+                      // 		$(".store-all-list").append(storeListHtml);
+                      // 	}
+                      // })
+                      $.each(data.searchList, function (index, store) {
+                        if (store !== null  && store.storeStatus == 1 ) {
+                          const storeDiv = $("<div>").addClass("store-all").on("click", function () {
+                            location.href = "/search/conveyStoreInfoToDetail?storeNo=" + store.storeNo;
+                          }).on("mouseover", function () {
+                            $(this).css("background-color", "#F1EAFF");
+                          }).on("mouseout", function () {
+                            $(this).css("background-color", "white");
+                          });
+                          const storeContent3 = $("<div>").addClass("store-content3");
+                          const img = $('<img>').attr("src", "/store/" + store.storeImg).attr("alt", "").addClass("imgScale");
+                          // const heartIcon = $("<span>").addClass("material-icons heart-text").text("favorite_border");
+                          // storeContent3.append(img, heartIcon);
+                          storeContent3.append(img);
+
+                          const storeContent4 = $("<div>").addClass("store-content4 padding-left80");
+                          const reviewScore = $("<div>").attr("id", "reviewScore-text").text(store.reviewScore + '점');
+                          const storeNameOperation = $("<div>");
+                          const storeName = $("<span>").text(store.storeName);
+                          const operationStatus = $("<span>").addClass("padding-left20").attr("id", "operationStatus-text").text(store.operationStatus);
+                          storeNameOperation.append(storeName, operationStatus);
+
+                          const subwayName = $("<div>").text(store.subwayName + '역');
+                          const foodType = $("<div>").text(store.foodType);
+                          const reviewLikeDiv = $("<div>");
+                          const commentIcon = $("<span>").addClass("material-icons message-text").text("comment");
+                          const reviewCount = $("<span>").addClass("padding-right20 font-size20").text(store.reviewCount);
+                          // const favoriteIcon = $("<span>").addClass("material-icons heart-text").text("favorite");
+                          // const likeCount = $("<span>").addClass("font-size20").text(store.likeCount);
+                          //reviewLikeDiv.append(commentIcon, reviewCount, favoriteIcon, likeCount);
+                          reviewLikeDiv.append(commentIcon, reviewCount);
+
+                          storeContent4.append(reviewScore, storeNameOperation, subwayName, foodType, reviewLikeDiv);
+                          storeDiv.append(storeContent3, storeContent4);
+
+                          $(".store-all-list").append(storeDiv);
+                        }
+                      });
+                      totalCount = data.totalCount;
+
+                      //화면추가가 끝난시점 -> 다음더보기를 위한 값 수정
+                      start = start + amount;
+                      //currentCount 값 변경
+                      currentCount = currentCount + data.searchList.length;
+
+                      console.log("total2 : " + totalCount);
+                      console.log("current2 : " + currentCount);
+
+                      //더이상 읽어올 게시물이 없으면 더보기버튼 삭제
+                      if (currentCount == totalCount) {
+                        $(".btn2").remove();
+                      }
+
+                    }
+                  })
+                })
+
+                // 최종적으로 생성된 button을 .store-all-list에 추가
+                $(".page-content2").append(button);
+
+                //추가
+                if (currentCount == totalCount) {
+                  $(".btn2").remove();
+                }
+              },
+              error: function () {
+
+              }
+            });
+          });
+          div.append(a);
+
+
+
+          $(".modal-content").append(div);
+        },
+        error: function (data) {
+          console.log("모달 에러 발생");
+          console.log(data);
+        }
+      })
+
+      $("#modal").show(); // 모달 보여주기
+      $("#modal .modal-content h2").text(stationName); // 모달에 역 이름 설정
+      $("body").css("overflow", "hidden"); // 스크롤 비활성화
+    }
+
+    //const stationName = fullStationName.replace(/역$/, ''); // '역' 문자가 맨 끝에 있을 때만 제거
+    $(".station-list > ul > li").click(function () {
+
+      const fullStationName = $(this).text(); // '당산역' 같은 전체 역 이름 가져오기
+      const stationName = fullStationName.replace(/역$/, ''); // '역' 문자가 맨 끝에 있을 때만 제거
+      //console.log(fullStationName);
+
+      ajaxStation(stationName);
+    });
+
+
+
+
+    $(document).ready(function () {
+
+
+
+      $(".subway-station").click(function () {
+        const stationName = $(this).find(".subway-station-name").text(); // 역 이름 가져오기
+
+        // const clickedSubway = $(this).attr('id'); 
+        // console.log(clickedSubway);
+        //console.log(stationName);
+
+        ajaxStation(stationName);
+      });
+
+      $(".close-button").click(function () {
+        $("#modal").hide(); // 모달 숨기기
+        $("body").css("overflow", "auto"); // 스크롤 다시 활성화
+
+      });
+
+      // 모달 바깥 영역 클릭 시 모달 닫기
+      $(window).click(function (e) {
+        if ($(e.target).is("#modal")) {
+          $("#modal").hide();
+          $("body").css("overflow", "auto"); // 스크롤 다시 활성화
+
+        }
+      });
+    });
+  </script>
+
+
+
+
+</body>
+<th:block th:include="common/footer"></th:block>
+
+</html>

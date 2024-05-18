@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>블랙리스트</title>
+<link rel="stylesheet" href="/css/storeInfo.css">
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/notice.css">
+<link rel="stylesheet" href="/css/side-menu.css">
+</head>
+<style>
+.s-storeBlackPlusBtn{
+	color: #fff;
+    font-size: 15px;
+    border-radius: 5px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
+    /* margin-top: 20px; */
+    background-color: #4c4945;
+    font-size: 15px;
+}
+.BlackBtn{
+	border: none;
+	color: #252323;
+    height: 40px;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+.BlackBtn:hover{
+	background-color: #cdd2ce;
+}
+.memberBlackBtn{
+	float: right;
+    border: none;
+    color: #252323;
+    height: 40px;
+    padding: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+}
+.memberBlackBtn:hover{
+	background-color: #cdd2ce;
+}
+.input-level2{
+    width: 90px;
+    /* display: block; */
+    padding: 0.5rem;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.memberBlackBtnBox{
+	overflow: hidden;
+	padding-top: 20px;
+}
+</style>
+<body>
+	<th:block th:include="common/header"></th:block>
+    <div class="content">
+    
+		<!--사이드메뉴-->
+		<div class="navigation">
+			<ul>
+				<li class="list">
+					<a href="/admin/allMember?reqPage=1">
+						<span class="material-icons">account_circle</span>
+						<span class="title">전체회원조회</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="/admin/allStore?reqPage=1">
+						<span class="material-icons">storefront</span>
+						<span class="title">매장 관리</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="/admin/reportList?reqPage=1">
+						<span class="material-icons">calendar_month</span>
+						<span class="title">신고 관리</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="#" class="active">
+						<span class="material-icons">calendar_month</span>
+						<span class="title">블랙리스트관리</span>
+					</a>
+					<ul>
+						<li class="sub-list">
+							<a href="/admin/storeBlackList?reqPage=1">
+								<span class="title">매장블랙리스트</span>
+							</a>
+						</li>
+						<li class="sub-list">
+							<a href="/admin/memberBlackList?reqPage=1">
+								<span class="title">회원블랙리스트</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<!--//사이드메뉴-->
+
+    	 <div class="sss-content">
+            <a href="/admin/memberBlackList?reqPage=1" class="page-title">회원 블랙리스트</a>
+            <!-- 
+             <a href="#" class="s-storeBlackPlusBtn">추가</a></div>            
+             -->
+            <div>
+            	<form action="/admin/searchBlackMember" method="get" id="searchFrm">
+					<th:block th:switch="${type}">
+						<select th:case="id" name="type" class="input-form">
+							<option value="all" >-</option>
+							<option value="nickname" >닉네임</option>
+							<option value="id" selected>아이디</option>
+						</select>
+						<select th:case="nickname" name="type" class="input-form">
+							<option value="all" >-</option>
+							<option value="nickname" selected>닉네임</option>
+							<option value="id" >아이디</option>
+						</select>
+						<select th:case="*" name="type" class="input-form">
+							<option value="all"  selected>-</option>
+							<option value="nickname" >닉네임</option>
+							<option value="id">아이디</option>
+						</select>
+					</th:block>
+					<input type="text" name="keyword" class="input-form" th:value="${keyword}">
+					<input type="hidden" name="reqPage" value="1">
+					<button type="submit" class="btn bc1" onclick="return checkKeyword();">검색</button>
+				</form>
+            </div>
+            <table class="tbl tbl-hover" style="width: 800px;font-size: 15px;">
+                <tr class="tr-3">
+                	<th style="width:10%;"><input type="checkbox" name="memberBlackCheckAll"></th>
+                    <th style="width:12%;">회원번호</th>
+                    <th style="width:12%;">아이디</th>
+                    <th style="width:15%;">닉네임</th>                    
+                    <th style="width:12%;">등급</th>
+                    <th style="width:15%;">등급변경</th>
+                </tr>
+                <tr th:each="member:${list}" class="tr-1 blackTr">
+                	<td><input type="checkbox" class="chk" name="memberBlackCheck"></td>
+                    <td th:text="${member.memberNo}"></td>
+                    <td><a th:href="@{/admin/memberView(memberNo=${member.memberNo})}" th:text="${member.memberId}"></a></td>
+                    <td><a th:href="@{/admin/memberView(memberNo=${member.memberNo})}" th:text="${member.memberNickname}"></a></td>
+                    <td th:if="${member.memberLevel}==4">리뷰블랙</td>
+                    <td th:if="${member.memberLevel}==5">예약블랙</td>
+                    <td th:if="${member.memberLevel}==6">
+                    	<select class="input-level2">
+                    		<option class="blackSelect" value="6" select>전체블랙</option>
+                    		<option class="blackSelect" value="4">리뷰블랙</option>
+                    		<option class="blackSelect" value="5">예약블랙</option>
+                    	</select>
+                    </td>
+	                <td th:if="${member.memberLevel}==6">
+	                    <button class="BlackBtn memberBlackCancelLevel" style="margin-right: 10px;">해제</button>   
+	                    <button th:if="${member.memberLevel}==6" class="BlackBtn memberBlackChangeLevel">변경</button>                                         
+	                </td>                    
+                    <td th:if="${member.memberLevel}!=6">
+	                    <button class="BlackBtn memberBlackCancelLevel">블랙해제</button>   
+	                </td>
+                </tr>
+            </table>
+            <div class="memberBlackBtnBox">
+				<button class="memberBlackBtn checkedMemberBlackChangeLevel">선택등급변경</button>					
+				<button class="memberBlackBtn checkedMemberBlackCancelLevel">선택블랙해제</button>            
+            </div>
+            <div id="pageNavi" th:utext="${pageNavi}"></div>
+        </div>
+    </div>
+
+		<script src="/js/side-menu.js"></script>
+
+    <script type="text/javascript">
+	    function checkKeyword(){
+			const keyword = $("[name=keyword]").val();
+			if(keyword==""){	
+				alert("검색어를 입력하세요.")
+				return false;
+			}
+		}
+	    $("[name=memberBlackCheckAll]").on("click",function(){
+	        if($(this).is(":checked")){
+	            $("[name=memberBlackCheck]").prop("checked",true);
+	        }
+	        else{
+	            $("[name=memberBlackCheck]").prop("checked", false);
+	        }
+	    });
+	    //등급변경
+	    $(".memberBlackChangeLevel").on("click",function(){
+			const memberNo = $(this).parent().parent().children().eq(1).text();
+			const self = this;
+			const memberLevel = $(this).parent().prev().children().val();
+			
+			$.ajax({
+				url : "/admin/memberBlackChangeLevel",
+				type : "get",
+				data : {memberNo : memberNo, memberLevel:memberLevel},
+				success : function(result){
+					console.log(result,typeof result);
+					if(result===1){
+						//console.log("성공");
+						alert("변경되었습니다.");
+					}else{
+						alert("잠시후 다시 시도해주세요.");
+					}
+					location.reload(); //안해도댐
+				},
+				error:function(){
+					console.log("에러");
+				}
+			});
+		});
+		$(".checkedMemberBlackChangeLevel").on("click",function(){
+			const check= $(".chk:checked");		
+			if(check.length==0){
+				alert("선택된 회원이 없습니다.");
+				return;
+			}
+			const no = new Array();
+			const level = new Array();
+			
+			check.each(function(index,item){
+				const memberNo = $(item).parent().next().text();
+				no.push(memberNo);
+				const memberLevel= $(item).parent().parent().find("select").val();
+				level.push(memberLevel);
+			});
+
+			$.ajax({
+		        url: "/admin/blackMemberCheckedChangeLevel",
+		        type: "get",
+		        data: { no : no , level : level},
+		        traditional: true,
+		        success: function(result) {
+		        	if(result==1){
+			            alert("등급 변경이 완료되었습니다.");
+		        	}else{
+		        		alert("등급 변경 실패");
+		        	}
+		            location.reload();
+		        },
+		        error: function(error) {
+		            console.log("에러");
+		        }
+		    });
+		});
+		
+		//블랙해제
+		$(".memberBlackCancelLevel").on("click",function(){
+			const memberNo = $(this).parent().parent().children().eq(1).text();
+			const self = this;
+			const origin = location.origin;
+			const url = location.href;
+			let uri = url.replace(origin,"");
+			uri = uri.substring(0,uri.lastIndexOf("=")+1);
+			$.ajax({
+				url : "/admin/memberBlackCancelLevel",
+				type : "get",
+				data : {memberNo : memberNo},
+				success : function(result){
+					if(result==1){
+						$(self).parent().parent().remove();//안해도됨
+					}else{
+						alert("잠시후 다시 시도해주세요.");
+					}
+					const page= $(".active-page").text()-1;
+					if(page>0){
+			            if($(".blackTr").length==0){
+			            	location.href=uri+page;
+			            }					
+					}else{
+						location.reload();
+		            }
+				},
+				error:function(){
+					console.log("에러");
+				}
+			});
+		});
+		
+		$(".checkedMemberBlackCancelLevel").on("click",function(){
+			const check= $(".chk:checked");		
+			if(check.length==0){
+				alert("선택된 회원이 없습니다.");
+				return;
+			}
+			const no = new Array();
+			
+			check.each(function(index,item){
+				const memberNo = $(item).parent().next().text();
+				no.push(memberNo);
+			});
+			
+			const origin = location.origin;
+			const url = location.href;
+			let uri = url.replace(origin,"");
+			uri = uri.substring(0,uri.lastIndexOf("=")+1);
+			//console.log(uri)
+			
+			$.ajax({
+		        url: "/admin/checkedMemberBlackCancelLevel",
+		        type: "get",
+		        data: { no : no },
+		        traditional: true,
+		        success: function(result) {
+		        	if(result==1){
+			            check.each(function(index,item){
+			            	$(item).parent().parent().remove();
+						});//안해도됨
+			            //alert("완료");
+		        	}else{
+		        		alert("실패");
+		        	}
+		            const page= $(".active-page").text()-1;      
+		            if(page>0){
+			            if($(".blackTr").length==0){
+			            	location.href=uri+page;
+			            }					
+					}else{
+						location.reload();
+		            }
+		        },
+		        error: function(error) {
+		            console.log("에러");
+		        }
+		    });
+			
+		});
+
+    </script>
+    <th:block th:include="common/footer"></th:block>
+</body>
+</html>

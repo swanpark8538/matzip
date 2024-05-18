@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>맛집 : 매점 검색</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- jquery -->
+	<script src="/js/jquery-3.7.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Stylish&display=swap"
+		rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Stylish&display=swap"
+		rel="stylesheet">
+    <link rel="stylesheet" href="/css/searchStoreList.css">
+    <link rel="stylesheet" href="/static/css/searchStoreList.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+</head>
+<body>
+<th:block th:include="common/header"></th:block>
+    <div class="page-wrap">
+        <div class="content-title">맛집 목록</div>
+
+        <div class="select-area">
+            <!-- 음식 타입(체크인 조건으로) -->
+            <!-- 별점 1,2,3,4,5 (별점 크기순으로) -->
+
+        </div>
+
+        <div class="page-content">
+            <div class="store-all" th:each="store : ${searchList}"  onclick="conveyStoreInfoToDetail(this);" th:data-store-no="${store.storeNo}">
+                <div class="store-content1">
+                    <img th:src="@{/store/{storeImg}(storeImg=${store.storeImg})}" alt="" class="imgScale">
+                </div>
+                <div class="store-content2 padding-left80">
+                    <div id="reviewScore-text" th:text="${store.reviewScore}+'점'"></div>
+                    <div>
+                        <span th:text="${store.storeName}"></span>
+                        <span  class="padding-left20" id="operationStatus-text" th:text="${store.operationStatus}"></span>
+                    </div>
+
+                    <div th:text="${store.subwayName}+'역'"></div>
+                    <div th:text="${store.foodType}"></div>
+                    <div>
+                        <span class="material-icons message-text">comment</span>
+                        <span class="padding-right20 font-size20" th:text="${store.reviewCount}"></span>
+                        <!-- <span class="material-icons heart-text">favorite</span>
+                        <span class="font-size20" th:text="${store.likeCount}"></span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="pageNavi" th:utext="${pageNavi}"></div>
+    </div>
+    <script>
+    	//const clickedStore = $("")
+    	function conveyStoreInfoToDetail(element){
+    		const storeNo = element.getAttribute('data-store-no');
+    		 location.href="/search/conveyStoreInfoToDetail?storeNo=" + storeNo;    	    		
+    	}
+        // .on("mouseover", function () {
+        //                     $(this).css("background-color", "#D5FFE4");
+        //                   }).on("mouseout", function () {
+        //                     $(this).css("background-color", "white");
+        //                   });
+
+        $(".store-all").on("mouseover",function(){
+            $(this).css("background-color", "#F1EAFF");
+        })
+        $(".store-all").on("mouseout",function(){
+            $(this).css("background-color", "white");
+        })
+    </script>
+<th:block th:include="common/footer"></th:block>
+</body>
+
+</html>

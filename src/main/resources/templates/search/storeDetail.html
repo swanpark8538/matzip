@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>맛집 상세 페이지</title>
+  <link rel="stylesheet" href="/css/storeDetail.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="/js/storeDetail.js"></script>
+</head>
+
+<body>
+  <th:block th:include="common/header"></th:block>
+
+  <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=tepft4p0ed&submodules=geocoder"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <div class="page-content">
+    <div class="store-head">
+      <div class="img-zone" style="width:520px;">
+      	<!-- 사진 경로 : C:\Temp\upload\store -->
+      	<img th:src="@{'/store/' + ${store.storeImg}}" style="max-width:100%; max-height:100%;">
+        <!-- 사진 경로 : static > photo > store -->
+        <!-- <img th:src="@{'/photo/store/' + ${store.storeImg}}" style="max-width:100%; max-height:100%;"> -->
+      </div>
+      <div class="store-title">
+        <div class="store-name">
+          <h1 th:text="${store.storeName}"></h1>
+        </div>
+        <div class="store-star-wrap">
+          <div class="store-report" th:if="${session.member == null or session.member.memberNo != store.memberNo}">
+            <button id="btn-store-report">신고하기</button>
+          </div>
+          <div class="store-star" th:if="${avgStar != 0}">
+          	<span th:text="${avgStar}" style="margin-right: 4px; color:#FFD700;"></span>
+          	<span style="margin-left: 8px;">
+          		(<span th:text="${reviewCount}"></span>)
+          	</span>
+          </div>
+          <div class="store-star" th:if="${avgStar == 0}">(등록된 별점이 없습니다)</div>
+          
+          <div class="star-wrap star-wrap2">
+            <span class="material-icons">star</span>
+            <span class="material-icons">star</span>
+            <span class="material-icons">star</span>
+            <span class="material-icons">star</span>
+            <span class="material-icons">star</span>
+            <div class="star-on">
+              <div class="star-wrap star-on-wrap">
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="store-like">하트</div>  -->
+        </div>
+        <div class="store-info">
+          <div class="store-addr">
+            <h3>
+              <span th:text="${store.storeAddr}"></span>
+              <span th:text="${store.storeAddr1}"></span>
+            </h3>
+          </div>
+          <div class="store-phone">
+            <h3>
+              <span th:text="${store.storePhone}"></span>
+            </h3>
+          </div>
+          <div class="store-hours">
+            <h3>
+              <span th:text="${store.openingHour}"></span>
+              <span>~</span>
+              <span th:text="${store.closingHour}"></span>
+              <span>( 휴무일 :</span>
+              <span th:each="closedDayList : ${closedDayList}">
+                <span th:text="${closedDayList.closedDay}"></span>
+              </span>
+              <span th:if="${#lists.isEmpty(closedDayList)}">
+                <a>X</a>
+              </span>
+              <span>)</span>
+            </h3>
+          </div>
+          <div class="store-intro">
+
+            <span th:text="${store.storeDescription}"></span>
+			
+          </div>
+          <div class="icon-zone">
+            <a th:if="${store.homePage != ''}" th:href="${store.homePage}" target="_blank">
+              <img src="/img/home.png" width="24px">
+            </a>
+            <a th:if="${store.storeSns != ''}" th:href="${store.storeSns}" target="_blank">
+              <img src="/img/sns.png" width="24px">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="store-section">
+      <div>
+        <div class="section-title">가게 위치</div>
+        <button type="submit" class="infoBtn"
+            th:if="${session.member != null and session.member.memberNo == store.memberNo}"
+            onclick="window.location.href='/store/myStore'">수정</button>
+        <div id="map" style="width:379px;height:360px;"></div>
+      </div>
+      <div>
+        <div class="section-title">메뉴 리스트</div>
+        <button type="submit" class="infoBtn"
+            th:if="${session.member != null and session.member.memberNo == store.memberNo}"
+            onclick="window.location.href='/store/myStore'">수정</button>
+        <div class="menu" style="height:360px; overflow-y: auto;">
+          <div th:each="menuList : ${menuList}" style="display: flex; align-items: center; padding: 15px;">
+            <img th:src="@{'/store/menu/' + ${menuList.menuImg}}"
+            style="max-width:140px; max-height:140px; margin-right: 10px;">
+            <!-- <img th:src="@{'/photo/store/' + ${menuList.menuImg}}"
+              style="max-width:140px; max-height:140px; margin-right: 15px;"> -->
+            <div style="flex-grow: 1;">
+              <span th:text="${menuList.menuName}" style="display: block; font-weight: bold; font-size:18px;"></span>
+              <span th:text="'가격: ' + ${menuList.menuPrice}" style="display: block; font-weight: bold; font-size:16px;"></span>
+            </div>
+          </div>
+          <div th:if="${#lists.isEmpty(menuList)}">
+            <span style="font-weight: 600; padding: 10px; font-size: 22px;">등록된 메뉴가 없습니다.</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-title" style="width:377px;">가게 안내</div>
+        <button type="button" class="infoBtn infoAlertBtn"
+          th:if="${session.member != null and session.member.memberNo == store.memberNo and (info == null or info != null)}"
+          onclick="infoAlert()">도움말</button>
+        <form id="infoForm" method="post">
+          <button type="submit" class="infoBtn"
+            th:if="${session.member != null and session.member.memberNo == store.memberNo}"
+            onclick="submitForm('update')">수정</button>
+          <button type="submit" class="infoBtn"
+            th:if="${session.member != null and session.member.memberNo == store.memberNo and (info == null or info.infoContent == '')}"
+            onclick="submitForm('insert')">작성</button>
+          <div class="store-intro" style="height:100%;"
+            th:if="${session.member != null and session.member.memberNo == store.memberNo}">
+            <textarea name="infoContent" id="infoContent" rows="10"
+              th:text="${info != null} ? ${info.infoContent} : ''"></textarea>
+            <input type="hidden" name="storeNo" id="storeNo" th:value="${store.storeNo}">
+          </div>
+        </form>
+        <div class="store-intro" style="height:100%;"
+          th:if="${session.member == null or session.member.memberNo != store.memberNo}">
+          <textarea name="infoContent" id="infoContent" rows="10" readonly
+            th:text="${info != null} ? ${info.infoContent} : ''"></textarea>
+          <input type="hidden" name="storeNo" id="storeNo" th:value="${store.storeNo}">
+        </div>
+      </div>
+    </div>
+    
+	<!-- 예약하기 -->
+    <div class="store-reserve">
+      <form id="reserve-form" action="/reserve/reserveFrm" method="post">
+        <button type="submit" class="btn" id="reserve-btn"
+          th:if="${session.member == null || session.member.memberLevel == 3 || session.member.memberLevel == 4}">예약하기</button>
+        <input type="hidden" name="storeNo" th:value="${store.storeNo}">
+      </form>
+    </div>
+
+    <div class="store-review">
+      <h2>리뷰 ( <span th:text="${reviewCount}"></span> 건 )</h2>
+      <!-- 댓글 입력 -->
+      <div class="inputReviewBox"
+        th:if="${session.member != null and (session.member.memberLevel == 3 or session.member.memberLevel == 5)}">
+        <form action="/search/insertReview" method="post">
+          <ul>
+            <li>
+              <span class="material-icons">account_box</span>
+            </li>
+            <li>
+              <select name="reviewStar">
+                <option value="5">⭐⭐⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="1">⭐</option>
+              </select>
+              <input type="hidden" name="reviewWriter" th:value="${session.member.memberNickname}">
+              <input type="hidden" name="storeNo" th:value="${store.storeNo}">
+              <textarea name="reviewContent" class="input-form"
+                placeholder="악성 리뷰 및 약관을 위배하는 리뷰는 삭제될 수 있습니다."></textarea>
+            </li>
+            <li>
+              <button type="submit" class="review-btn">등록</button>
+            </li>
+          </ul>
+        </form>
+      </div>
+      <!-- 댓글 출력 -->
+      <div class="reviewBox">
+        <th:block th:each="sr : ${reviewList}">
+          <ul class="posting-review" style="display: flex;">
+            <li>
+              <span class="material-icons">lunch_dining</span>
+            </li>
+            <li>
+              <p class="review-info">
+                <span class="star-zone" th:switch="${sr.reviewStar}">
+                  <span th:case="1"><span class="material-icons star1">star</span><span
+                      class="material-icons star2">star</span><span class="material-icons star2">star</span><span
+                      class="material-icons star2">star</span><span class="material-icons star2">star</span></span>
+                  <span th:case="2"><span class="material-icons star1">star</span><span
+                      class="material-icons star1">star</span><span class="material-icons star2">star</span><span
+                      class="material-icons star2">star</span><span class="material-icons star2">star</span></span>
+                  <span th:case="3"><span class="material-icons star1">star</span><span
+                      class="material-icons star1">star</span><span class="material-icons star1">star</span><span
+                      class="material-icons star2">star</span><span class="material-icons star2">star</span></span>
+                  <span th:case="4"><span class="material-icons star1">star</span><span
+                      class="material-icons star1">star</span><span class="material-icons star1">star</span><span
+                      class="material-icons star1">star</span><span class="material-icons star2">star</span></span>
+                  <span th:case="5"><span class="material-icons star1">star</span><span
+                      class="material-icons star1">star</span><span class="material-icons star1">star</span><span
+                      class="material-icons star1">star</span><span class="material-icons star1">star</span></span>
+                </span>
+                <span th:text="${sr.reviewWriter}" style="font-weight: 600;"></span>
+                <span th:text="${sr.regDate}"></span>
+                <span th:if="${session.member != null and session.member.memberNo == store.memberNo}">
+                  <button class="btn-review-report">신고</button>
+                </span>
+              </p>
+              <p class="review-content" th:text="${sr.reviewContent}" style="white-space: pre-line;"></p>
+              <textarea name="reviewContent" class="input-form" th:text="${sr.reviewContent}"
+                style="min-height:90px;display:none"></textarea>
+              <p class="review-link" th:if="${session.member != null}">
+                <th:block
+                  th:if="${session.member.memberNickname == sr.reviewWriter or session.member.memberLevel == 1}">
+                  <a href="javascript:void(0)"
+                    th:onclick="modifyReview(this,[[${sr.reviewNo}]],[[${store.storeNo}]])">수정</a>
+                  <a href="javascript:void(0)"
+                    th:onclick="deleteReview(this,[[${sr.reviewNo}]],[[${store.storeNo}]])">삭제</a>
+                </th:block>
+              </p>
+            </li>
+          </ul>
+          <!-- 리뷰 신고를 위한 정보 -->
+          <form id="report-review-form" th:if="${session.member != null}" style="display: none;" method="post">
+            <input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
+            <input type="hidden" name="storeNo" th:value="${store.storeNo}">
+            <input type="hidden" name="reviewWriter" th:value="${sr.reviewWriter}">
+          </form>
+        </th:block>
+      </div>
+      <button class="review-more-btn" id="more-btn">리뷰 더보기</button>
+    </div>
+    
+    <!-- 맛집 슬라이드 -->
+    <div class="swiper">
+      <h2>인근 역 맛집</h2>
+      <br>
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" th:each="store : ${storeList}">
+        	<a th:href="@{'/search/conveyStoreInfoToDetail?storeNo=' + ${store.storeNo}}">
+	            <img th:src="@{/store/{storeImg}(storeImg=${store.storeImg})}" />
+	        </a>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-scrollbar"></div>
+    </div>
+
+    <div class="store-report-wrap" th:if="${session.member != null}">
+      <div class="report-modal">
+        <div class="modal-top">
+          <h2>매장 신고하기</h2>
+        </div>
+        <div class="modal-content">
+          <form action="/search/reportStore" method="post">
+            <div class="input-wrap">
+              <input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
+              <input type="hidden" name="storeNo" th:value="${store.storeNo}">
+              <textarea name="reason" id="reason" rows="6" placeholder="신고 사유를 입력하세요" required></textarea>
+              <input class="modal-btn" id="store-report-btn" type="submit" value="신고">
+              <button class="modal-btn" id="store-close-btn">닫기</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <br><br>
+
+	
+	
+  </div>
+
+  <th:block th:include="common/footer"></th:block>
+
+  <script>
+    // 페이지 로드 시 실행되는 함수
+    $(document).ready(function () {
+      /* 네이버 지도 */
+      selectMapList();
+      searchAddressToCoordinate("[[${store.storeAddr}]]");
+
+      /* 별점 색칠하기 */
+      const avgStar = [[${ avgStar }]];
+      const percent = (avgStar / 5) * 100;
+      $('.star-on').css('width', percent + '%');
+
+      /* 예약하기 버튼 이벤트 */
+      $("#reserve-btn").click(function (e) {
+        /* Thymeleaf를 사용하여 세션의 회원 정보를 확인 */
+        const loggedIn = [[${ session.member != null }]];
+        /* 만약 로그인 되어 있지 않다면 */
+        if (!loggedIn) {
+          e.preventDefault(); // 기본 이벤트(링크 이동) 방지
+          alert("회원 로그인 후 이용해주세요."); // 알림 메시지 출력
+        }
+      });
+
+      /* 신고 모달 */
+      $("#btn-store-report").on("click", function (e) {
+        const loggedIn = [[${ session.member != null }]];
+        if (!loggedIn) {
+          e.preventDefault(); // 기본 이벤트(링크 이동) 방지
+          alert("로그인 후 신고해주세요."); // 알림 메시지 출력
+        } else {
+          $(".store-report-wrap").css("display", "flex");
+        }
+      });
+      $("#store-close-btn").on("click", function () {
+        $(".store-report-wrap").css("display", "none");
+      });
+      // 리뷰 신고
+      $(".btn-review-report").click(function () {
+        var memberNo = $("input[name='memberNo']").val();
+        var storeNo = $("input[name='storeNo']").val();
+        var reviewWriter = $("input[name='reviewWriter']").val();
+
+        if (confirm("신고하시겠습니까?")) {
+          $.ajax({
+            type: "POST",
+            url: "/search/reportReview",
+            data: {
+              memberNo: memberNo,
+              storeNo: storeNo,
+              reviewWriter: reviewWriter
+            },
+            success: function (response) {
+              alert("신고가 접수되었습니다.");
+            },
+            error: function (xhr, status, error) {
+              console.error(xhr.responseText);
+            }
+          });
+        }
+      });
+      /* 슬라이드swiper */
+      const swiper = new Swiper('.swiper', {
+        autoplay: {
+          delay: 5000,
+        },
+        loop: true,
+        slidesPerView: 2,
+        spaceBetween: 7,
+        centeredSlides: true,
+
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+
+        scrollbar: {
+          el: '.swiper-scrollbar',
+        },
+      });
+    });
+
+  </script>
+
+</body>
+
+</html>

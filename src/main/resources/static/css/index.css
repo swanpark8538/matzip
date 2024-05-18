@@ -1,0 +1,180 @@
+@charset "UTF-8";
+
+a {
+  color: #191919;
+}
+
+/* 공통 디자인 */
+.page-content {
+  width: 100%;
+  margin: 0 auto;  
+  flex-grow: 1;
+  overflow: hidden;
+  margin-top:20px;    
+}
+.page-title {
+  font-family: ns-r;  
+  font-size: 150%;
+  font-weight: 500;
+  margin-bottom:20px;
+  text-indent: 20px;
+}
+.page-title > span{
+	color: #f85050; 
+}
+
+
+/* font 클래스*/
+.f-thin {
+  font-family: ns-thin;
+}
+.f-extrabold {
+  font-family: ns-eb;
+}
+.f-black {
+  font-family: ns-b;
+}
+
+/* 글씨 색 */
+.fc-1 {
+  color:#191919;
+}
+.fc-2 {
+  color: #b3b3b3;
+}
+.fc-3 {
+  color: #72B37E
+}
+
+/* 배경 색*/
+.bg-1 {
+  background-color: #fff;
+}
+.bg-2 {
+  background-color: #b3b3b3;
+}
+
+/* 테이블 디자인 */
+.tbl {
+  width: 100%;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+.tbl th,
+.tbl td {
+  padding: 1rem;
+  text-align: center;
+}
+.tbl .tr-1 {
+  background-color: rgba(255, 255, 255, 1);
+}
+.tbl .tr-1 {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.tbl .td-1 {
+  background-color: rgba(255, 255, 255, 1);
+}
+.tbl.tbl-hover .tr-1:hover {
+  transition-duration: 0.5s;
+  background-color: #E1F0DA;
+}
+
+/* 버튼 디자인 */
+.btn {
+  border: none;
+  display: inline-block;
+  box-sizing: border-box;
+  transition-duration: 0.5s;
+  font-size: 16px;
+  font-family: ns-light;
+}
+
+.bc1 {
+  background-color: #72B37E;
+  color: #fff;
+  border: 2px solid #72B37E;
+}
+.bc1:hover {
+  cursor: pointer;
+}
+.bc2 {
+  background-color: #12c2e9;
+  color: #fff;
+  border: 2px solid #12c2e9;
+}
+.bc2:hover {
+  cursor: pointer;
+}
+.bc3 {
+  background-color: #f64f59;
+  color: #fff;
+  border: 2px solid #f64f59;
+}
+.bc3:hover {
+  cursor: pointer;
+}
+
+.bs1 {
+  padding: 1rem;
+}
+.bs2 {
+  padding: 1.5rem;
+  font-size: 1.1em;
+}
+.bs3 {
+  padding: 2rem;
+  font-size: 1.2em;
+}
+.bs4 {
+  width: 100%;
+  height: 96px;
+  padding: 2rem;
+  font-size: 1.2em;
+}
+
+/* 슬라이드 디자인 */
+.swiper{
+  width: 99%;
+  margin: 0 auto;
+  height: 300px;
+  
+}
+.swiper1{
+	
+}
+.swiper2{
+	margin-bottom: 100px;
+}
+.swiper img{
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  
+}
+.mid-content{
+	width:99%;	
+	background: #f9fafb;
+	padding: 100px 0;
+}
+.main-content{			
+	font-size: 30px;
+    font-weight: 200;
+    line-height: 2.0;
+    color: #191f28;
+    text-align: center;    
+}
+.main-content > span{
+	color: #47C83E;
+	font-family: ns-eb; 
+}
+
+/*
+.swiper-button-next{
+  color: transparent !important;
+}
+
+.swiper-button-prev{
+  color: transparent !important;
+}
+*/

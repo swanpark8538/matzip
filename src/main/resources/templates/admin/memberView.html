@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>회원정보</title>
+<script src="/js/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="/css/storeInfo.css">
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/notice.css">
+<link rel="stylesheet" href="/css/side-menu.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+    <div class="content">
+        <!--사이드메뉴-->
+		<div class="navigation">
+			<ul>
+				<li class="list">
+					<a href="/admin/allMember?reqPage=1">
+						<span class="material-icons">account_circle</span>
+						<span class="title">전체회원조회</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="/admin/allStore?reqPage=1">
+						<span class="material-icons">storefront</span>
+						<span class="title">매장 관리</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="/admin/reportList?reqPage=1">
+						<span class="material-icons">calendar_month</span>
+						<span class="title">신고 관리</span>
+					</a>
+				</li>
+				<li class="list">
+					<a href="#">
+						<span class="material-icons">calendar_month</span>
+						<span class="title">블랙리스트관리</span>
+					</a>
+					<ul>
+						<li class="sub-list">
+							<a href="/admin/storeBlackList?reqPage=1">
+								<span class="title">매장블랙리스트</span>
+							</a>
+						</li>
+						<li class="sub-list">
+							<a href="/admin/memberBlackList?reqPage=1">
+								<span class="title">회원블랙리스트</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<!--//사이드메뉴-->
+        <div class="sss-content2">
+	        <div class="s-title22"><h3>회원 상세 정보<h3></div>
+            <div class="s-memberInfo-wrap">
+	            <div class="s-title2" style="font-size: 20px;">
+	            	<h3 >
+		            	<span th:text="${member.memberName}" name="memberName"></span><span>님의 회원정보</span>	            	
+	            	</h3>
+	            </div>
+	            <form action="/admin/updateMember" method="post">
+	            <input type="hidden" th:value="${member.memberNo}" name="memberNo">
+            	<table>
+            		<tr>
+            			<th style="width: 20%" name="memberLevel">[회원등급]</th>
+            			<td th:if="${member.memberLevel}==1">관리자</td>
+            			<td th:if="${member.memberLevel}==2">매장</td>
+            			<td th:if="${member.memberLevel}==3">회원</td>
+            			<td th:if="${member.memberLevel}==4">회원[블랙]</td>
+            			<td th:if="${member.memberLevel}==5">회원[블랙]</td>
+            			<td th:if="${member.memberLevel}==6">회원[블랙]</td>
+            		</tr>
+            		<tr>
+            			<th>[아이디]</th>
+            			<td th:text="${member.memberId}"></td>
+            		</tr>
+            		<tr>
+            			<th>[이름]</th>
+            			<td class="s-showInfo" th:text="${member.memberName}" name="memberName"></td>
+            			<td class="s-hideInfo"><input type="text" th:value="${member.memberName}" name="newName" required></td>
+            		</tr>
+            		<!-- 
+					<tr>
+            			<th>[비밀번호]</th>
+            			<td class="s-showInfo" >*******</td>
+            			<td><input  class="s-hideInfo" type="password" name="memberPw" th:value="${member.memberPw}" required></td>
+            		</tr>            		
+            		 -->
+            		<tr>
+            			<th>[이메일]</th>
+            			<td th:text="${member.memberEmail}" name="memberEmail"></td>
+            		</tr>
+            		<tr>
+            			<th>[닉네임]</th>
+            			<td th:text="${member.memberNickname}" name="memberNickname"></td>
+            		</tr>
+            		<tr>
+            			<th>[휴대전화]</th>
+            			<td class="s-showInfo" th:text="${member.memberPhone}" name="memberPhone"></td>
+            			<td class="s-hideInfo"><input type="text" name="newPhone" th:value="${member.memberPhone}" required></td>
+            		</tr>
+            		<tr>
+            			<th>[가입일]</th>
+            			<td th:text="${member.memberJoinDate}" name="memberJoinDate"></td>
+            		</tr>
+            		<tr th:if="${member.memberLevel == 2 and count == 0}" class="s-showInfo">
+            			<td colspan="2" style="text-align: center;padding-top: 20px;padding-left: 50px;">현재 등록된 매장이 없습니다.</td>
+            		</tr>
+            	</table>
+            	<div class="s-memberInfolast">
+					<a th:if="${member.memberLevel == 2 and count == 1}" th:href="@{/admin/storeView(storeNo=${storeNo})}"  class="memberInfoBtn s-showInfo" style="background-color: #72b37e">매장정보</a>	            	            	            		
+					<a class="memberInfoBtn s-showInfo" style="background-color: #FFA648" onclick="showInfo()">수정하기</a>
+					<a href="javascript:void(0)" class="memberInfoBtn s-hideInfo" th:onclick="updateMember()" style="width: 100%; background-color: #FFA648">수정완료</a>
+					<a th:href="@{/admin/deleteMember(memberNo=${member.memberNo})}" class="memberInfoBtn s-showInfo" style="background-color: #F15F5F;" onclick="return confirm('정말로 탈퇴하겠습니까?');">회원탈퇴</a>
+				</div>            
+	            </form>
+            </div>
+        </div>
+    </div>
+    <script src="/js/side-menu.js"></script>
+    <script type="text/javascript">
+    	function showInfo(){
+    		$(".s-showInfo").toggle();
+    		$(".s-hideInfo").toggle();
+    	}
+    	
+    	function updateMember(){
+    		var memberNo = $("[name=memberNo]").val();
+    		var memberName = $("[name=newName]").val();
+    		var memberPhone = $("[name=newPhone]").val();
+    		//var memberPw = $("[name=memberPw]").val();
+    		//console.log(memberPhone)
+    		
+			$.ajax({
+				url : "/admin/updateMember",
+				type : "post",
+				//data : {memberNo : memberNo, memberName : memberName, memberPhone : memberPhone, memberPw : memberPw},
+				data : {memberNo : memberNo, memberName : memberName, memberPhone : memberPhone},
+				success : function(result){
+					if(result==1){
+						$(".s-showInfo").toggle();
+			    		$(".s-hideInfo").toggle();
+			    		$("[name=memberName]").text(memberName);
+			    		$("[name=memberPhone]").text(memberPhone);
+			    		//$("[name=memberPw]").val(memberPw);
+					}else{
+						console.log("실패");						
+					}
+				},
+				error:function(){
+					console.log("실패");
+				}
+			});
+		}
+    </script>
+    <th:block th:include="common/footer"></th:block>
+    </body>
+</html>

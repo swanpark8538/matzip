@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+		<div class="mid">
+        <div class="login-logo"><img src="/img/맛zip로고.png"></div>
+        <div class="login-box">
+            <form action="/member/signin" method="post">
+                <!-- 
+                <div class="login-choiceBtn">
+                	<label>
+                        <span>관리자</span>
+                        <input type="radio" name="memberLevel" value="1" checked>                        
+                    </label>
+                    <label>
+                        <span>매장</span>
+                        <input type="radio" name="memberLevel" value="2">                        
+                    </label>
+                    <label>
+                        <span>회원</span>
+                        <input type="radio" name="memberLevel" value="3">                                                              
+                    </label>
+                </div> 
+                 -->                                       
+                <div class="login-wrap">
+                    <label for="memberId">ID</label>
+                    <input type="text" name="memberId" id="memberId" class="input-from">
+                </div>
+                <div class="login-wrap">
+                    <label for="memberPw">password</label>
+                    <input type="password" name="memberPw" id="memberPw" class="input-from">
+                </div>
+                <div class="login-btn">
+                    <button type="submit">로 그 인</button>
+                </div> 
+            </form>              
+        </div>
+        <div class="info-search">
+            <div class="id-search"><a href="/mail/idSearch">아이디 찾기</a></div>
+            <div class="pw-search"><a href="/mail/pwSearch">비밀번호 찾기</a></div>
+        </div>
+    </div>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

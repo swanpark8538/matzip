@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+* {
+  color: #404040;
+}
+
+ul{
+  list-style: none;
+}
+
+main {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.main-wrap{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin : 0 auto;
+  width: 1200px;
+}
+
+.page-title{
+  font-size: 40px;
+  height: 60px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 100%;
+  text-align: center;
+  color: #404040;
+}
+
+.page-content{
+  /*flex-grow: 1;*/
+  width: 951px;
+  box-sizing: border-box;
+}
+
+.content-wrap{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+.article{
+  border: #eff1eb;
+  box-shadow: 0 0 0 3px #eff1eb ;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.article-title{
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.storeName{
+}
+
+.article-content{
+  margin-top: 20px;
+}
+
+.float{
+  overflow: hidden;
+}
+
+.opening-hour{
+  float: left;
+  text-align: center;
+}
+.opening-hour > li{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.opening-hour > li:first-child{
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+.day{
+  width: 75px;
+}
+.hour{
+  width: 125px;
+}
+
+
+.reserveFrm{
+  box-sizing: border-box;
+  width: 390px;
+}
+
+.reserveFrm .time-area,.people-area,.menu-area,.request-area{
+  margin-bottom: 20px;
+}
+
+
+.li-title, .li-content{
+  float: left;
+  color: #404040;
+}
+
+.reserveFrm .li-title{
+  width: 70px;
+  margin-right: 10px;
+}
+
+.reserveFrm .li-content{
+  width: 290px;
+}
+
+.time-area .li-content{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.smallBtn{
+  width: 50px;
+  height: 25px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.smallBtn:hover{
+  background: #007fff;
+  width: 54px;
+}
+
+.smallBtn-active{
+  background: #007fff;
+  width: 54px;
+}
+
+.fullTime{
+  width: 50px;
+  height: 25px;
+  border: none;
+  border-radius: 2px;
+  line-height: 1;
+}
+
+#people-minus{
+  font-size: small;
+  cursor: pointer;
+}
+#people-plus{
+  font-size: small;
+  cursor: pointer;
+}
+#servings-minus{
+  font-size: small;
+  cursor: pointer;
+}
+#servings-plus{
+  font-size: small;
+  cursor: pointer;
+}
+
+.menu-list{
+  width: 135px;
+}
+
+.selected-menu{
+  padding-left: 80px;
+  margin-bottom: 20px;
+}
+.selected-menu [name='deleteMenuBtn']{
+  cursor: pointer;
+}
+
+
+#menu-order-btn{
+  background: #007fff;
+  margin-left: 10px;
+  color: #404040;
+}
+
+.reserveRequest{
+  width: 220px;
+}
+
+
+
+
+.reserve-btn{
+  width: 140px;
+  height: 40px;
+  background: #8b968c;
+  border: none;
+  border-radius: 5px;
+  font-size: large;
+  margin-left: 115px;
+}
+
+.getReady{
+  background-color: #78c386;
+  cursor: pointer;
+}

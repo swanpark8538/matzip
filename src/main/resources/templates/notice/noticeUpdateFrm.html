@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공지사항 수정</title>
+<style>
+	.btn.bc1{
+	    width: 600px;
+	    height: 40px;
+	    font-weight: 600;
+	    background-color: #707070;
+	    transition: background-color 0.8s ease;
+	    border: 2px solid #fff;
+	    margin-bottom: 50px;
+  }
+  .btn.bc1:hover {
+    background-color: #72B37E; /* 마우스를 올렸을 때의 배경색 */
+    color: #fff;
+  }
+  .noticeWrite tr:last-child>td{
+    border : 1px solid #fff;
+  }
+</style>
+<link rel="stylesheet" href="/css/notice.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+	
+	<div class="page-content">
+		<div class="page-title">공지사항</div>
+		<form action="/notice/update" class="noticeUpdateFrm" method="post" enctype="multipart/form-data">
+			<table class="tbl noticeWrite">
+				<tr>
+					<th style="width:20%;">제목</th>
+					<td>
+						<input type="text" name="noticeTitle" class="input-form" th:value="${n.noticeTitle}">
+						<input type="hidden" name="noticeNo" th:value="${n.noticeNo}">
+					</td>
+				</tr>
+				<tr>
+					<th>첨부파일</th>
+					<td>
+						<div class="file-wrap">
+							<div th:each="file : ${n.fileList}" class="files">
+								<span class="delFilename" th:text="${file.filename}"></span>
+								<span class="material-icons delBtn" th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
+							</div>
+						</div>
+						<input type="file" name="upfile" multiple>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align:left;">
+						<textarea id="noticeContent" name="noticeContent" class="input-form" th:text="${n.noticeContent}"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<button type="submit" class="btn bc1">공지사항 수정</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+	<script>
+		$("#noticeContent").summernote({
+			height : 500,
+			lang : "ko-KR",
+			callbacks : {
+				onImageUpload : function(files){
+					uploadImage(files[0],this);
+				}
+			},
+			disableResize : true,
+			disableResizeEditor : true,
+			resize : false
+		});
+		function uploadImage(file,editor){
+			const form = new FormData();
+			form.append("upfile",file);
+			$.ajax({
+				url : "/notice/editor",
+				type : "post",
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data){
+					console.log($(editor));
+					$(editor).summernote("insertImage",data);
+				},
+				error : function(){
+					console.log("에러");
+				}
+			});
+		}
+		function deleteFile(obj, fileNo) {
+			if(confirm("파일을 삭제하시겠습니까?")) {
+				const input = $("<input>");
+				input.attr("name","delFileNo");
+				input.attr("type","hidden");
+				input.val(fileNo);
+				$(".noticeUpdateFrm").append(input);
+				$(obj).parent().remove();
+			}
+		}
+		$(document).ready(function() {
+		    $('form').submit(function() {
+		        var title = $('input[name="noticeTitle"]').val();
+		        var content = $('#noticeContent').val();
+		        
+		        if (title.trim() === '' || content.trim() === '') {
+		            alert('제목과 내용을 입력해주세요.');
+		            return false;
+		        }
+		    });
+		});
+	</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

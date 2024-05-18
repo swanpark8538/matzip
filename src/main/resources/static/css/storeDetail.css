@@ -1,0 +1,469 @@
+@charset "UTF-8";
+
+a {
+  color: #191919;
+}
+
+/* 공통 디자인 */
+.page-content {
+  width: 1200px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.store-head {
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* 이미지 영역 */
+.img-zone {
+  width: 600px;
+  height: 300px;
+}
+
+/* 매장 헤드(우측정렬) */
+.store-title {
+  width: 600px;
+}
+
+.store-title>div {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.store-title>div:first-child {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* 매장 정보 */
+.store-info {
+  width: 600px;
+  margin-top: 20px;
+}
+
+.store-info>div {
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* 매장 3요소 */
+.store-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.store-section>div {
+  width: calc(33.33% - 20px);
+  /* 요소 사이의 간격을 띄우기 위해 33.33%에서 간격을 빼줍니다. */
+}
+
+.store-section>div:not(:last-child) {
+  margin-right: 20px;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.store-section div:nth-child(3) {
+  overflow: hidden;
+}
+
+.infoAlertBtn {
+  float: right;
+  margin-right: 20px;
+}
+
+.infoBtn {
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: #72B37E;
+  color: #fff;
+  border: 2px solid #72B37E;
+  width: 50px;
+}
+
+.infoBtn:hover {
+  cursor: pointer;
+}
+
+#infoContent {
+  width: 94%;
+  height: 340px;
+  resize: none;
+  padding: 10px;
+  font-size: 17px;
+  background-color: #f0f0f0;
+  border: none;
+  font-weight: 600;
+}
+#infoContent:focus{
+  outline: none;
+}
+
+.menu{
+  background-color: #f0f0f0;
+}
+
+
+/* 예약버튼 디자인 */
+.store-reserve {
+  margin: 50px auto;
+  text-align: center;
+}
+
+#reserve-btn {
+  display: inline-block;
+  width: 1188px;
+  height: 50px;
+  text-align: center;
+  font-weight: 600;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  transition: background-color 0.8s ease;
+  background-color: #707070;
+  color: #fff;
+  font-size: 18px;
+}
+
+#reserve-btn:hover {
+  background-color: #F8D64F;
+  cursor: pointer;
+}
+
+/* 리뷰 입력 */
+.input-form {
+  border-radius: 5px;
+  resize: none;
+}
+
+.input-form:focus {
+  outline: none;
+  /* 포커스 효과 제거 */
+}
+
+.inputReviewBox {
+  margin: 50px;
+}
+
+.inputReviewBox>form>ul {
+  list-style-type: none;
+  display: flex;
+}
+
+.inputReviewBox>form>ul>li:first-child {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputReviewBox>form>ul>li:first-child>span {
+  font-size: 80px;
+  color: #ccc;
+}
+
+.inputReviewBox>form>ul>li:nth-child(2) {
+  width: 75%;
+}
+
+.inputReviewBox>form>ul>li:nth-child(2)>textarea {
+  height: 96px;
+  min-height: 96px;
+  width: 804px;
+  resize: none;
+  padding: 10px;
+}
+
+.inputReviewBox>form>ul>li:last-child {
+  width: 10%;
+}
+
+.review-btn {
+  margin-top: 26px;
+  margin-left: 10px;
+  width: 100%;
+  height: 118px;
+  background-color: #72B37E;
+  color: #fff;
+  border: 2px solid #72B37E;
+  border-radius: 5px;
+  font-size: 22px;
+}
+
+.review-btn:hover {
+  cursor: pointer;
+}
+
+/* 리뷰 출력 */
+.reviewBox {
+  margin: 50px;
+}
+
+.posting-review {
+  display: flex;
+  border-top: 2px solid #ccc;
+  list-style-type: none;
+}
+
+.posting-review>li {
+  box-sizing: border-box;
+}
+
+.posting-review>li:first-child {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  border-right: 1px solid #ccc;
+}
+
+.posting-review>li:first-child .material-icons {
+  font-size: 80px;
+  color: #72B37E;
+}
+
+.posting-review>li:last-child {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+}
+
+.posting-review>li:last-child>p {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.review-info {
+  overflow: hidden;
+}
+
+.posting-review>li:last-child>.review-info>span {
+  padding: 0px 10px;
+  float: left;
+}
+
+.posting-review>li:last-child>.review-info>span:not(:last-child) {
+  border-right: 2px solid #ccc;
+}
+
+.posting-review>li:last-child>.review-content {
+  padding: 0px 15px;
+}
+
+.posting-review>li:last-child>.review-link {
+  text-align: right;
+}
+
+.posting-review>li:last-child>.review-link>a {
+  margin: 0px 5px;
+}
+
+.posting-review>li:last-child>.review-link>a:hover {
+  text-decoration: underline;
+}
+
+.review-more-btn {
+  display: inline-block;
+  width: 1188px;
+  height: 50px;
+  text-align: center;
+  font-weight: 600;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  transition: background-color 0.8s ease;
+  background-color: #707070;
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 50px;
+}
+
+.review-more-btn:hover {
+  background-color: #72B37E;
+  cursor: pointer;
+}
+
+/* 별점 디자인 */
+.star-zone {
+  font-size: 0;
+  /* 아이콘 사이의 공백을 없애기 위해 부모 요소의 폰트 크기를 0으로 설정 */
+}
+
+.star-zone {
+  display: inline-block;
+  font-size: 24px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+}
+
+.star1 {
+  color: gold;
+}
+
+.star2 {
+  color: lightgray;
+}
+
+.star-wrap{
+  overflow: hidden;
+}
+
+.star-wrap>span{
+  float: left;
+  color: lightgray;
+  font-size: 30px;
+}
+.star-on-wrap>span{
+  color: gold;
+}
+.star-on{
+  width: 0px;
+  position: absolute;
+  left: 0px;
+  overflow: hidden;
+}
+.star-on-wrap{
+  width: 150px;
+}
+.star-wrap2{
+  position: relative;
+}
+
+.store-star-wrap{
+  overflow: hidden;
+}
+.store-star{
+  float: right;
+  height: 30px;
+  line-height: 30px;
+  margin-left: 10px;
+  font-weight: 600;
+  font-size: 18px;
+}
+.store-report{
+  float: right;
+  height: 30px;
+  line-height: 30px;
+  margin-left: 50px;
+}
+
+/* 신고모달 디자인 */
+.store-report-wrap{
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.review-report-wrap{
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.report-modal{
+  background-color: #fff;
+  width: 500px;
+  padding: 30px;
+  border-radius: 20px;
+}
+.modal-top>h2{
+  padding: 20px;
+  text-align: center;
+}
+.input-wrap{
+  width: 80%;
+  margin: 20px auto;
+}
+.input-wrap>*{
+  display: block;
+  width: 100%;
+  margin: 10px;
+}
+
+#reason{
+  padding: 5px;
+  resize: none;
+  margin-bottom: 40px;
+}
+#reason:focus{
+  outline: none;
+}
+.modal-btn{
+  width: 410px;
+  height: 40px;
+  color: #fff;
+  font-weight: 600;
+}
+.modal-btn:hover{
+  cursor: pointer;
+}
+#store-report-btn{
+  background-color: #F34A4A;
+  border: 2px solid #F34A4A;
+  border-radius: 5px;
+}
+#store-close-btn{
+  background-color: #707070;
+  border: 2px solid #707070;
+  border-radius: 5px;
+}
+
+/* 신고버튼 디자인 */
+#btn-store-report{
+  width: 80px;
+  height: 28px;
+  background-color: #F34A4A;
+  border: 2px solid #F34A4A;
+  color: #fff;
+}
+#btn-store-report:hover{
+  cursor: pointer;
+}
+.btn-review-report {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 슬라이드 디자인 */
+.swiper{
+  width: 1200px;
+  margin: 0 auto;
+  height: 360px;
+}
+.swiper img{
+  width: 100%;
+  height: 360px;
+}
+
+.swiper-button-next{
+  color: transparent !important;
+}
+
+.swiper-button-prev{
+  color: transparent !important;
+}
