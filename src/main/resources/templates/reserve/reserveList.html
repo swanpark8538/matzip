@@ -94,7 +94,7 @@
             <div class="article-title2" th:text="${rvm.storeName}"></div>
             <div class="article-content">
 
-              <img class="store-img" th:src="${rvm.storeImg}"></img>
+              <img class="store-img" th:src="@{/store/{storeImg}(storeImg=${rvm.storeImg})}"></img>
 
               <div class="reserve-info">
                 <ul>
